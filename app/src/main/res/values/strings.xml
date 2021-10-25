@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Playio</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome">Welcome</string>
+    <string name="home_seller_text">Find your best music.</string>
+    <string name="trending">Trending</string>
+    <string name="view_more">View More</string>
+    <string name="top_artists">Top Artists</string>
+    <string name="top_genre">Top Genre</string>
+    <string name="profile_picture">profile picture</string>
+    <string name="top_albums">Top Albums</string>
 </resources>
