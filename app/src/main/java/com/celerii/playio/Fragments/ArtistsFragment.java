@@ -1,4 +1,4 @@
-package com.celerii.playio;
+package com.celerii.playio.Fragments;
 
 import android.os.Bundle;
 
@@ -13,9 +13,9 @@ import com.celerii.playio.R;
 /**
  *
  */
-public class TracksFragment extends Fragment {
+public class ArtistsFragment extends Fragment {
 
-    public TracksFragment() {
+    public ArtistsFragment() {
         // Required empty public constructor
     }
 
@@ -23,6 +23,6 @@ public class TracksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tracks, container, false);
+        return inflater.inflate(R.layout.fragment_artists, container, false);
     }
 }

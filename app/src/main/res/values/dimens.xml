@@ -4,4 +4,11 @@
     <dimen name="general_padding">20dp</dimen>
     <dimen name="welcome_text_size">20sp</dimen>
     <dimen name="standard_top_margin">20dp</dimen>
+    <dimen name="home_trending_row_play_button_margin">10dp</dimen>
+    <dimen name="home_genre_row_padding_top_and_bottom">10dp</dimen>
+    <dimen name="home_genre_row_padding_start_and_end">20dp</dimen>
+    <dimen name="home_artists_row_artist_picture_margin">20dp</dimen>
+    <dimen name="home_artists_row_album_art_margin">20dp</dimen>
+    <dimen name="separator_view_edge_margin">20dp</dimen>
+    <dimen name="fragment_header_padding">20dp</dimen>
 </resources>

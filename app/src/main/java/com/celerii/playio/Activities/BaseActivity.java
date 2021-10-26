@@ -1,8 +1,10 @@
-package com.celerii.playio;
+package com.celerii.playio.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.celerii.playio.R;
 
 public class BaseActivity extends AppCompatActivity {
 

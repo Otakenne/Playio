@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.celerii.playio">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,8 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Playio">
-        <activity android:name=".BaseActivity"></activity>
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".Activities.PlayActivity"/>
+        <activity android:name=".Activities.ArtistsActivity" />
+        <activity android:name=".Activities.AlbumsActivity" />
+        <activity android:name=".Activities.BaseActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
