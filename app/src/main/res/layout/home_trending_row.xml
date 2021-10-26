@@ -4,15 +4,22 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/track_art"
-        android:layout_width="170dp"
-        android:layout_height="190dp"
-        android:contentDescription="@string/track_art"
+    <LinearLayout
+        android:id="@+id/track_art_clipper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/profile_picture_background"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <ImageView
+            android:id="@+id/track_art"
+            android:layout_width="170dp"
+            android:layout_height="190dp"
+            android:contentDescription="@string/track_art" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/play_button"
@@ -33,7 +40,7 @@
         android:layout_marginStart="@dimen/home_trending_row_play_button_margin"
         android:layout_marginEnd="@dimen/home_trending_row_play_button_margin"
         android:layout_marginBottom="@dimen/home_trending_row_play_button_margin"
-        android:text="Ice Prince feat Brymo ()Jess"
+        android:text=""
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/play_button"
@@ -47,7 +54,7 @@
         android:maxLines="1"
         android:layout_marginStart="@dimen/home_trending_row_play_button_margin"
         android:layout_marginEnd="@dimen/home_trending_row_play_button_margin"
-        android:text="Oleku"
+        android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/play_button"
         app:layout_constraintBottom_toTopOf="@id/artist" />

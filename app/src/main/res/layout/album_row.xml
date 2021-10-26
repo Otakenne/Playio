@@ -4,15 +4,24 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/album_art"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <LinearLayout
+        android:id="@+id/album_art_clipper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/profile_picture_background"
         android:layout_margin="@dimen/home_artists_row_artist_picture_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/artist_name"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <ImageView
+            android:id="@+id/album_art"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/album_art"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/artist_name"
@@ -23,7 +32,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/album_art"
+        app:layout_constraintStart_toEndOf="@id/album_art_clipper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

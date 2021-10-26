@@ -12,11 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Playio">
-
-        <activity android:name=".Activities.PlayActivity"/>
-        <activity android:name=".Activities.ArtistsActivity" />
-        <activity android:name=".Activities.AlbumsActivity" />
-        <activity android:name=".Activities.BaseActivity" >
+        <activity android:name=".Activities.PlayActivity" />
+        <activity android:name=".Activities.BaseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

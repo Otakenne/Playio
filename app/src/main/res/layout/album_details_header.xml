@@ -5,35 +5,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:id="@+id/artist_picture_clipper"
+        android:id="@+id/album_art_clipper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/home_artists_row_artist_picture_margin"
-        android:background="@drawable/artist_profile_picture_background"
+        android:background="@drawable/profile_picture_background"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/artist_name"
+        app:layout_constraintEnd_toStartOf="@+id/album_name_layout"
         app:layout_constraintBottom_toBottomOf="parent" >
 
         <ImageView
-            android:id="@+id/artist_picture"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:contentDescription="@string/artist_picture"/>
+            android:id="@+id/album_art"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/album_art" />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/artist_name"
+
+    <LinearLayout
+        android:id="@+id/album_name_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginEnd="@dimen/home_artists_row_artist_picture_margin"
-        android:gravity="center"
-        android:ellipsize="end"
-        android:maxLines="2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/artist_picture_clipper"
+        app:layout_constraintStart_toEndOf="@id/album_art_clipper"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <TextView
+            android:id="@+id/album_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+    </LinearLayout>
 
     <View
         android:layout_width="0dp"

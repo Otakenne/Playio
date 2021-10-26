@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="defaultColor" format="reference|color" />
+    <attr name="defaultColorSecondary" format="reference|color" />
     <attr name="defaultTextColor" format="reference|color" />
     <attr name="toolbar_color" format="reference|color" />
+    <attr name="accent_color" format="reference|color" />
+    <attr name="separator_view_color" format="reference|color" />
 </resources>

@@ -12,57 +12,111 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation" />
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav_and_smart_play_controls_layout" />
 
     <LinearLayout
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottom_nav_and_smart_play_controls_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:weightSum="4"
-        android:orientation="horizontal"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/standard_top_margin"
+        android:layout_marginEnd="@dimen/standard_top_margin"
+        android:layout_marginBottom="@dimen/standard_top_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
-        
-        <ImageView
-            android:id="@+id/home"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/placeholdericon"
-            android:clickable="true"
-            android:focusable="true"/>
 
-        <ImageView
-            android:id="@+id/tracks"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/placeholdericon"
-            android:clickable="true"
-            android:focusable="true"/>
+        <LinearLayout
+            android:id="@+id/smart_play_controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/artists"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/placeholdericon"
-            android:clickable="true"
-            android:focusable="true"/>
+            <ImageView
+                android:id="@+id/track_art"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/track_art" />
 
-        <ImageView
-            android:id="@+id/albums"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/placeholdericon"
-            android:clickable="true"
-            android:focusable="true"/>
+            <TextView
+                android:id="@+id/track_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"/>
 
+            <ImageView
+                android:id="@+id/play_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:src="@drawable/placeholdericon"
+                android:contentDescription="@string/play_button" />
+        </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/standard_top_margin"
+            android:layout_marginBottom="@dimen/standard_top_margin"
+            android:layout_marginStart="@dimen/separator_view_edge_margin"
+            android:layout_marginEnd="@dimen/separator_view_edge_margin" />
+
+        <LinearLayout
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="4"
+            android:orientation="horizontal"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:id="@+id/home"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:src="@drawable/placeholdericon"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/home_bottom_navigation_button"/>
+
+            <ImageView
+                android:id="@+id/tracks"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:src="@drawable/placeholdericon"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/tracks_bottom_navigation_button"/>
+
+            <ImageView
+                android:id="@+id/artists"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:src="@drawable/placeholdericon"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/artists_bottom_navigation_button"/>
+
+            <ImageView
+                android:id="@+id/albums"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:src="@drawable/placeholdericon"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/albums_bottom_navigation_button"/>
+        </LinearLayout>
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

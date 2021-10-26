@@ -14,4 +14,18 @@
     <string name="error_image">Error Image</string>
     <string name="track_art">Track Art</string>
     <string name="play_button">Play Button</string>
+    <string name="artist_picture">Artist Picture</string>
+    <string name="album_art">Album Art</string>
+    <string name="top_40_tracks_art">Top 40 tracks art</string>
+    <string name="top_40_track_art">Top 40 track art</string>
+    <string name="home_bottom_navigation_button">Home bottom navigation button</string>
+    <string name="albums_bottom_navigation_button">Albums bottom navigation button</string>
+    <string name="artists_bottom_navigation_button">Artists bottom navigation button</string>
+    <string name="tracks_bottom_navigation_button">Tracks bottom navigation button</string>
+    <string name="player_error_message">An error occurred while trying to stream your music.</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="previous">Previous</string>
+    <string name="play_pause">Play/Pause</string>
+    <string name="next">Next</string>
+    <string name="repeat">Repeat</string>
 </resources>
