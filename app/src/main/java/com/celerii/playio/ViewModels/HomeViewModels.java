@@ -6,23 +6,23 @@ import androidx.lifecycle.ViewModel;
 import com.celerii.playio.Models.Album;
 import com.celerii.playio.Models.Artist;
 import com.celerii.playio.Models.Track;
-import com.celerii.playio.Repositories.HomeRepository;
+import com.celerii.playio.Repositories.Repository;
 
 import java.util.List;
 
 public class HomeViewModels extends ViewModel {
-    private HomeRepository homeRepository;
+    private final Repository repository;
     private MutableLiveData<List<Track>> tracks;
     private MutableLiveData<List<Artist>> artists;
     private MutableLiveData<List<Album>> albums;
 
     public HomeViewModels() {
-        this.homeRepository = new HomeRepository();
+        this.repository = new Repository();
     }
 
     public MutableLiveData<List<Track>> getTracks(String limit) {
         if (this.tracks == null) {
-            this.tracks = this.homeRepository.getTracks(limit);
+            this.tracks = this.repository.getTracks(limit);
         }
 
         return this.tracks;
@@ -30,7 +30,7 @@ public class HomeViewModels extends ViewModel {
 
     public MutableLiveData<List<Artist>> getArtists(String limit) {
         if (this.artists == null) {
-            this.artists = this.homeRepository.getArtists(limit);
+            this.artists = this.repository.getArtists(limit);
         }
 
         return this.artists;
@@ -38,7 +38,7 @@ public class HomeViewModels extends ViewModel {
 
     public MutableLiveData<List<Album>> getAlbums(String limit) {
         if (this.albums == null) {
-            this.albums = this.homeRepository.getAlbums(limit);
+            this.albums = this.repository.getAlbums(limit);
         }
 
         return this.albums;

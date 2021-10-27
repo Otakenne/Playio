@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeRepository {
+public class Repository {
 
     public MutableLiveData<List<Track>> getTracks(String limit) {
         MutableLiveData<List<Track>> tracks = new MutableLiveData<>();
@@ -30,6 +30,74 @@ public class HomeRepository {
                         limit,
                         Constants.IMAGE_SIZE,
                         Constants.BOOST);
+
+        call.enqueue(new Callback<TrackResponse>() {
+            @Override
+            public void onResponse(Call<TrackResponse> call, Response<TrackResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    TrackResponse trackResponse = response.body();
+                    String status = trackResponse.getHeaders().getStatus();
+
+                    if (status.equals("success")) {
+                        tracks.setValue(trackResponse.getResults());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TrackResponse> call, Throwable t) {
+
+            }
+        });
+
+        return tracks;
+    }
+
+    public MutableLiveData<List<Track>> getArtistTracks(String limit, String artistID) {
+        MutableLiveData<List<Track>> tracks = new MutableLiveData<>();
+
+        Call<TrackResponse> call = RetrofitClient
+                .getInstance()
+                .getMyAPIInterface()
+                .getArtistTracks(Constants.CLIENT_ID,
+                        Constants.FORMAT,
+                        limit,
+                        Constants.IMAGE_SIZE,
+                        artistID);
+
+        call.enqueue(new Callback<TrackResponse>() {
+            @Override
+            public void onResponse(Call<TrackResponse> call, Response<TrackResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    TrackResponse trackResponse = response.body();
+                    String status = trackResponse.getHeaders().getStatus();
+
+                    if (status.equals("success")) {
+                        tracks.setValue(trackResponse.getResults());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TrackResponse> call, Throwable t) {
+
+            }
+        });
+
+        return tracks;
+    }
+
+    public MutableLiveData<List<Track>> getAlbumTracks(String limit, String albumID) {
+        MutableLiveData<List<Track>> tracks = new MutableLiveData<>();
+
+        Call<TrackResponse> call = RetrofitClient
+                .getInstance()
+                .getMyAPIInterface()
+                .getArtistTracks(Constants.CLIENT_ID,
+                        Constants.FORMAT,
+                        limit,
+                        Constants.IMAGE_SIZE,
+                        albumID);
 
         call.enqueue(new Callback<TrackResponse>() {
             @Override

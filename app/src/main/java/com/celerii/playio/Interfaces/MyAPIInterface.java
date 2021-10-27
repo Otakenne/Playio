@@ -1,13 +1,8 @@
 package com.celerii.playio.Interfaces;
 
-import com.celerii.playio.Models.Album;
 import com.celerii.playio.Models.AlbumResponse;
-import com.celerii.playio.Models.Artist;
 import com.celerii.playio.Models.ArtistResponse;
-import com.celerii.playio.Models.Track;
 import com.celerii.playio.Models.TrackResponse;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -23,14 +18,14 @@ public interface MyAPIInterface {
                                   @Query("boost") String boost);
 
     @GET("tracks/")
-    Call<List<Track>> getArtistTracks(@Query("client_id") String clientID,
+    Call<TrackResponse> getArtistTracks(@Query("client_id") String clientID,
                                       @Query("format") String format,
                                       @Query("limit") String limit,
                                       @Query("imagesize") String imagesize,
                                       @Query("artist_id") String artistID);
 
     @GET("tracks/")
-    Call<List<Track>> getAlbumTracks(@Query("client_id") String clientID,
+    Call<TrackResponse> getAlbumTracks(@Query("client_id") String clientID,
                                      @Query("format") String format,
                                      @Query("limit") String limit,
                                      @Query("imagesize") String imagesize,
