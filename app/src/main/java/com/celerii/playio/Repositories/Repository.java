@@ -2,12 +2,12 @@ package com.celerii.playio.Repositories;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.celerii.playio.Models.Album;
-import com.celerii.playio.Models.AlbumResponse;
-import com.celerii.playio.Models.Artist;
-import com.celerii.playio.Models.ArtistResponse;
-import com.celerii.playio.Models.Track;
-import com.celerii.playio.Models.TrackResponse;
+import com.celerii.playio.mods.Album;
+import com.celerii.playio.mods.AlbumResponse;
+import com.celerii.playio.mods.Artist;
+import com.celerii.playio.mods.ArtistResponse;
+import com.celerii.playio.mods.Track;
+import com.celerii.playio.mods.TrackResponse;
 import com.celerii.playio.Network.RetrofitClient;
 import com.celerii.playio.Utility.Constants;
 

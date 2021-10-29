@@ -6,4 +6,5 @@
     <attr name="toolbar_color" format="reference|color" />
     <attr name="accent_color" format="reference|color" />
     <attr name="separator_view_color" format="reference|color" />
+    <attr name="picture_background_color" format="reference|color" />
 </resources>

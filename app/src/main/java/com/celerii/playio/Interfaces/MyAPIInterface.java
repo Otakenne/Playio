@@ -1,8 +1,8 @@
 package com.celerii.playio.Interfaces;
 
-import com.celerii.playio.Models.AlbumResponse;
-import com.celerii.playio.Models.ArtistResponse;
-import com.celerii.playio.Models.TrackResponse;
+import com.celerii.playio.mods.AlbumResponse;
+import com.celerii.playio.mods.ArtistResponse;
+import com.celerii.playio.mods.TrackResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -2,7 +2,7 @@ package com.celerii.playio.ViewModels;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.celerii.playio.Models.Track;
+import com.celerii.playio.mods.Track;
 import com.celerii.playio.Repositories.Repository;
 
 import java.util.List;

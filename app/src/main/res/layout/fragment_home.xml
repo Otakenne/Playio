@@ -1,213 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.HomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/error_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="UseCompoundDrawables">
+        tools:context=".Fragments.HomeFragment">
 
-        <ImageView
-            android:id="@+id/error_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/error_image" />
-
-        <TextView
-            android:id="@+id/error_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="40dp"
-            android:gravity="center"
-            android:text="@string/no_internet_message"
-            style="@style/HeaderTextView"/>
-
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <ScrollView
-        android:id="@+id/scroll_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="@dimen/general_padding"
-        android:scrollbars="none"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/error_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/error_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/error_image" />
 
             <TextView
-                android:id="@+id/welcome_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/welcome"
-                style="@style/WelcomeTextView"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                android:id="@+id/home_seller_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                android:layout_marginEnd="50dp"
-                android:textStyle="bold"
-                android:text="@string/home_seller_text"
-                style="@style/HomeSellerTextView"
-                app:layout_constraintTop_toBottomOf="@id/welcome_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/profile_picture_clipper"/>
-
-
-            <LinearLayout
-                android:id="@+id/profile_picture_clipper"
+                android:id="@+id/error_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                android:background="@drawable/profile_picture_background"
-                app:layout_constraintTop_toBottomOf="@id/welcome_text"
-                app:layout_constraintStart_toEndOf="@id/home_seller_text"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:padding="40dp"
+                android:gravity="center"
+                android:text="@string/no_internet_message"
+                style="@style/HeaderTextView"/>
 
-                <ImageView
-                    android:id="@+id/profile_picture"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:contentDescription="@string/profile_picture" />
-            </LinearLayout>
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/trending_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                android:text="@string/trending"
-                style="@style/HeaderTextView"
-                app:layout_constraintTop_toBottomOf="@id/home_seller_text"
-                app:layout_constraintStart_toStartOf="parent"/>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-            <TextView
-                android:id="@+id/view_tracks"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                android:text="@string/view_more"
-                style="@style/HeaderTextView"
-                app:layout_constraintTop_toBottomOf="@id/home_seller_text"
-                app:layout_constraintEnd_toEndOf="parent"/>
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tracks_list"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/standard_top_margin"
-                app:layout_constraintTop_toBottomOf="@id/trending_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:layout_marginStart="@dimen/standard_top_margin"
+                android:layout_marginEnd="@dimen/standard_top_margin">
 
-            <TextView
-                android:id="@+id/top_artists"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                android:text="@string/top_artists"
-                style="@style/HeaderTextView"
-                app:layout_constraintTop_toBottomOf="@id/tracks_list"
-                app:layout_constraintStart_toStartOf="parent"/>
+                <TextView
+                    android:id="@+id/welcome_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/welcome"
+                    style="@style/WelcomeTextView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-            <TextView
-                android:id="@+id/view_artists"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                android:text="@string/view_more"
-                style="@style/HeaderTextView"
-                app:layout_constraintTop_toBottomOf="@id/tracks_list"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                <TextView
+                    android:id="@+id/home_seller_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_top_margin"
+                    android:layout_marginEnd="50dp"
+                    android:textStyle="bold"
+                    android:text="@string/home_seller_text"
+                    style="@style/HomeSellerTextView"
+                    app:layout_constraintTop_toBottomOf="@id/welcome_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/profile_picture_clipper"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/artists_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                app:layout_constraintTop_toBottomOf="@id/top_artists"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
-            <TextView
-                android:id="@+id/top_genres"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                android:text="@string/top_genre"
-                style="@style/HeaderTextView"
-                app:layout_constraintTop_toBottomOf="@id/artists_list"
-                app:layout_constraintStart_toStartOf="parent"/>
+                <LinearLayout
+                    android:id="@+id/profile_picture_clipper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_top_margin"
+                    android:background="@drawable/profile_picture_background"
+                    app:layout_constraintTop_toBottomOf="@id/welcome_text"
+                    app:layout_constraintStart_toEndOf="@id/home_seller_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:clipToOutline="@{true}">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/genres_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                app:layout_constraintTop_toBottomOf="@id/top_genres"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                    <ImageView
+                        android:id="@+id/profile_picture"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="?defaultColorSecondary"
+                        android:contentDescription="@string/profile_picture" />
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/top_albums"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                android:text="@string/top_albums"
-                style="@style/HeaderTextView"
-                app:layout_constraintTop_toBottomOf="@id/genres_list"
-                app:layout_constraintStart_toStartOf="parent"/>
+                <TextView
+                    android:id="@+id/trending_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/home_section_margins"
+                    android:text="@string/trending"
+                    style="@style/HeaderTextView"
+                    app:layout_constraintTop_toBottomOf="@id/home_seller_text"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-            <TextView
-                android:id="@+id/view_albums"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                android:text="@string/view_more"
-                style="@style/HeaderTextView"
-                app:layout_constraintTop_toBottomOf="@id/genres_list"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                <TextView
+                    android:id="@+id/view_tracks"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/home_section_margins"
+                    android:text="@string/view_more"
+                    style="@style/ViewMoreTextView"
+                    app:layout_constraintTop_toBottomOf="@id/home_seller_text"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/albums_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                app:layout_constraintTop_toBottomOf="@id/top_albums"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tracks_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/home_recycler_view_top_margin"
+                    app:layout_constraintTop_toBottomOf="@id/trending_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/top_artists"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/home_section_margins"
+                    android:text="@string/top_artists"
+                    style="@style/HeaderTextView"
+                    app:layout_constraintTop_toBottomOf="@id/tracks_list"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-    </ScrollView>
+                <TextView
+                    android:id="@+id/view_artists"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/home_section_margins"
+                    android:text="@string/view_more"
+                    style="@style/ViewMoreTextView"
+                    app:layout_constraintTop_toBottomOf="@id/tracks_list"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/artists_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/home_recycler_view_top_margin"
+                    app:layout_constraintTop_toBottomOf="@id/top_artists"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/top_albums"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/home_section_margins"
+                    android:text="@string/top_albums"
+                    style="@style/HeaderTextView"
+                    app:layout_constraintTop_toBottomOf="@id/artists_list"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/view_albums"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/home_section_margins"
+                    android:text="@string/view_more"
+                    style="@style/ViewMoreTextView"
+                    app:layout_constraintTop_toBottomOf="@id/artists_list"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/albums_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/home_recycler_view_top_margin"
+                    app:layout_constraintTop_toBottomOf="@id/top_albums"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

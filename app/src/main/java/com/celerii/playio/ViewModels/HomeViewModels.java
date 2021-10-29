@@ -3,9 +3,9 @@ package com.celerii.playio.ViewModels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.celerii.playio.Models.Album;
-import com.celerii.playio.Models.Artist;
-import com.celerii.playio.Models.Track;
+import com.celerii.playio.mods.Album;
+import com.celerii.playio.mods.Artist;
+import com.celerii.playio.mods.Track;
 import com.celerii.playio.Repositories.Repository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.celerii.playio.Models;
+package com.celerii.playio.mods;
 
 public class ResponseHeader {
     private String status, error_message, warnings, result_count;

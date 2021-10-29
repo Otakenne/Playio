@@ -1,4 +1,4 @@
-package com.celerii.playio.Models;
+package com.celerii.playio.mods;
 
 import java.util.List;
 

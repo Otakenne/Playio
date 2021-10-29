@@ -1,4 +1,10 @@
-package com.celerii.playio.Models;
+package com.celerii.playio.mods;
+
+import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
+
+import com.bumptech.glide.Glide;
 
 public class Track {
     String id, name, artist_id, artist_name, album_id, album_name, releasedate;
@@ -99,5 +105,14 @@ public class Track {
 
     public void setDuration(long duration) {
         this.duration = duration;
+    }
+
+    @BindingAdapter("image")
+    public static void loadImage(ImageView imageView, String imageURL) {
+        if (imageURL != null) {
+            Glide.with(imageView.getContext())
+                    .load(imageURL)
+                    .into(imageView);
+        }
     }
 }

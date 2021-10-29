@@ -7,6 +7,6 @@
         android:radius="@dimen/profile_picture_background_radius" />
 
     <solid
-        android:color="?picture_background_color" />
+        android:color="?defaultColorSecondary" />
 
 </shape>

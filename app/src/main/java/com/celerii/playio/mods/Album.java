@@ -1,4 +1,10 @@
-package com.celerii.playio.Models;
+package com.celerii.playio.mods;
+
+import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
+
+import com.bumptech.glide.Glide;
 
 public class Album {
     String id, name, releasedate, artist_id, artist_name, image, shorturl;
@@ -57,5 +63,14 @@ public class Album {
 
     public void setShorturl(String shorturl) {
         this.shorturl = shorturl;
+    }
+
+    @BindingAdapter("image")
+    public static void loadImage(ImageView imageView, String imageURL) {
+        if (imageURL != null) {
+            Glide.with(imageView.getContext())
+                    .load(imageURL)
+                    .into(imageView);
+        }
     }
 }
