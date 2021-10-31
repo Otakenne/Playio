@@ -9,4 +9,15 @@ public class Constants {
     public static final String HAS_IMAGE = "true";
     public static final String BOOST = "popularity_week";
     public static final String ORDER = "popularity_week";
+
+    public static final String TRACK_TOP_SONG_COUNT = "40";
+    public static final String TRACK_DETAILS_HEADER_TEXT = "Top 40 Songs for the Week";
+    public static final String TRACK_DETAILS_HEADER_IMAGE_URL = "https://static.radio.net/images/broadcasts/ea/8f/1380/2/c175.png";
+
+    public static final String HOME_FRAGMENT_TAG = "home";
+    public static final String TRACKS_FRAGMENT_TAG = "tracks";
+    public static final String ARTISTS_FRAGMENT_TAG = "artists";
+    public static final String ALBUMS_FRAGMENT_TAG = "albums";
+    public static final String ARTISTS_DETAIL_FRAGMENT_TAG = "artists_detail";
+    public static final String ALBUMS_DETAIL_FRAGMENT_TAG = "albums_detail";
 }

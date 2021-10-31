@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  *
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment  {
 
     HomeViewModels homeViewModels;
     FragmentHomeBinding fragmentHomeBinding;

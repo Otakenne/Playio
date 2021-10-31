@@ -1,28 +1,77 @@
 package com.celerii.playio.Fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.celerii.playio.Adapters.ArtistDetailAdapter;
 import com.celerii.playio.R;
+import com.celerii.playio.Utility.Constants;
+import com.celerii.playio.ViewModels.TracksViewModel;
+import com.celerii.playio.databinding.FragmentArtistDetailBinding;
+import com.celerii.playio.mods.Artist;
+import com.celerii.playio.mods.Track;
+
+import java.util.ArrayList;
 
 /**
  *
  */
 public class ArtistDetailFragment extends Fragment {
 
+    private FragmentArtistDetailBinding fragmentArtistDetailBinding;
+    private ArtistDetailAdapter artistDetailAdapter;
+
+    private ArrayList<Track> tracks;
+    public static Artist artist;
+
     public ArtistDetailFragment() {
         // Required empty public constructor
     }
 
+    public static ArtistDetailFragment newInstance() {
+        return new ArtistDetailFragment();
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_artist_detail, container, false);
+        fragmentArtistDetailBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_artist_detail, container, false);
+        View view = fragmentArtistDetailBinding.getRoot();
+
+
+        initializeUI();
+        TracksViewModel tracksViewModel = new TracksViewModel();
+        tracksViewModel.getTracks(Constants.TRACK_TOP_SONG_COUNT).observe(getViewLifecycleOwner(), trackList -> {
+            if (trackList != null && !trackList.isEmpty()) {
+                tracks.clear();
+                tracks.addAll(trackList);
+                artistDetailAdapter.notifyDataSetChanged();
+
+                fragmentArtistDetailBinding.errorLayout.setVisibility(View.GONE);
+                fragmentArtistDetailBinding.progressBar.setVisibility(View.GONE);
+                fragmentArtistDetailBinding.trackList.setVisibility(View.VISIBLE);
+            }
+        });
+
+        return view;
+    }
+
+    private void initializeUI() {
+        fragmentArtistDetailBinding.errorLayout.setVisibility(View.GONE);
+        fragmentArtistDetailBinding.progressBar.setVisibility(View.VISIBLE);
+        fragmentArtistDetailBinding.trackList.setVisibility(View.GONE);
+
+        tracks = new ArrayList<>();
+        artist = null;
+        artistDetailAdapter = new ArtistDetailAdapter(tracks, artist);
+        fragmentArtistDetailBinding.trackList.setAdapter(artistDetailAdapter);
+        fragmentArtistDetailBinding.trackList.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 }

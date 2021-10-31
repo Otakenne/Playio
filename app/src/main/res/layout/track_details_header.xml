@@ -1,36 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="header"
+            type="com.celerii.playio.mods.TrackDetailsHeader" />
+    </data>
 
-    <LinearLayout
-        android:id="@+id/top_40_tracks_art_clipper"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/profile_picture_background"
-        android:layout_margin="@dimen/standard_top_margin"
-        android:contentDescription="@string/top_40_tracks_art"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/top_40_tracks_art"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:contentDescription="@string/top_40_track_art"/>
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/top_40_tracks_art_clipper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/profile_picture_background"
+            android:layout_margin="@dimen/standard_top_margin"
+            android:contentDescription="@string/top_40_tracks_art"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:clipToOutline="@{true}" >
 
-    <TextView
-        android:id="@+id/top_40_tracks_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/standard_top_margin"
-        app:layout_constraintTop_toBottomOf="@id/top_40_tracks_art_clipper"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+            <ImageView
+                android:id="@+id/top_40_tracks_art"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/top_40_track_art"
+                app:image="@{header.imageURL}" />
+        </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/top_40_tracks_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standard_top_margin"
+            android:layout_marginStart="@dimen/standard_top_margin"
+            android:layout_marginEnd="@dimen/standard_top_margin"
+            android:layout_marginBottom="@dimen/track_details_header_text_bottom_margin"
+            style="@style/HeaderTextView"
+            android:textStyle="bold"
+            android:text="@{header.text}"
+            app:layout_constraintTop_toBottomOf="@id/top_40_tracks_art_clipper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

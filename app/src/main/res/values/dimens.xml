@@ -8,7 +8,7 @@
     <dimen name="home_genre_row_padding_top_and_bottom">10dp</dimen>
     <dimen name="home_genre_row_padding_start_and_end">20dp</dimen>
     <dimen name="home_artists_row_artist_picture_margin">10dp</dimen>
-    <dimen name="home_artists_row_album_art_margin">20dp</dimen>
+    <dimen name="home_artists_row_album_art_margin">10dp</dimen>
     <dimen name="separator_view_edge_margin">20dp</dimen>
     <dimen name="fragment_header_padding">20dp</dimen>
     <dimen name="profile_picture_background_radius">10dp</dimen>
@@ -16,4 +16,5 @@
     <dimen name="bottom_nav_top_and_base_margin">10dp</dimen>
     <dimen name="home_section_margins">60dp</dimen>
     <dimen name="home_recycler_view_top_margin">10dp</dimen>
+    <dimen name="track_details_header_text_bottom_margin">40dp</dimen>
 </resources>

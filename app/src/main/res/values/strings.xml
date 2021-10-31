@@ -29,4 +29,6 @@
     <string name="next">Next</string>
     <string name="repeat">Repeat</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="artists">Artists</string>
+    <string name="albums">Albums</string>
 </resources>

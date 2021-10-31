@@ -1,6 +1,6 @@
 package com.celerii.playio.Network;
 
-import com.celerii.playio.Interfaces.MyAPIInterface;
+import com.celerii.playio.interfaces.MyAPIInterface;
 import com.celerii.playio.Utility.Constants;
 
 import retrofit2.Retrofit;

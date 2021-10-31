@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
         <!-- Colors -->
         <item name="defaultColor">@color/white</item>
-        <item name="defaultColorSecondary">#F9F9FB</item>
+        <item name="defaultColorSecondary">#f6f1f8</item>
         <item name="defaultTextColor">#414141</item>
         <item name="toolbar_color">@color/white</item>
         <item name="accent_color">#E2374D</item>

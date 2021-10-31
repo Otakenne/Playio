@@ -1,65 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/album_art_clipper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/home_artists_row_artist_picture_margin"
-        android:background="@drawable/profile_picture_background"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/album_name_layout"
-        app:layout_constraintBottom_toBottomOf="parent" >
+    <data>
+        <variable
+            name="album"
+            type="com.celerii.playio.mods.Album" />
+    </data>
 
-        <ImageView
-            android:id="@+id/album_art"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/album_art" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/album_name_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginEnd="@dimen/home_artists_row_artist_picture_margin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/album_art_clipper"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" >
-
-        <TextView
-            android:id="@+id/album_name"
+        <LinearLayout
+            android:id="@+id/album_art_clipper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:ellipsize="end"
-            android:maxLines="1" />
+            android:layout_margin="@dimen/standard_top_margin"
+            android:background="@drawable/profile_picture_background"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/album_name_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:clipToOutline="@{true}">
 
-        <TextView
-            android:id="@+id/release_date"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/album_art"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/album_art"
+                app:image="@{album.image}"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/album_name_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:ellipsize="end"
-            android:maxLines="1" />
+            android:orientation="vertical"
+            android:layout_marginEnd="@dimen/standard_top_margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/album_art_clipper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" >
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/album_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:text="@{album.name}"
+                style="@style/HeaderTextView"/>
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0.5dp"
-        android:layout_marginStart="@dimen/separator_view_edge_margin"
-        android:layout_marginEnd="@dimen/separator_view_edge_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+            <TextView
+                android:id="@+id/release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{album.releasedate}"
+                style="@style/ViewMoreTextView"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="@dimen/separator_view_edge_margin"
+            android:layout_marginEnd="@dimen/separator_view_edge_margin"
+            android:background="?defaultColorSecondary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,4 +1,4 @@
-package com.celerii.playio.Interfaces;
+package com.celerii.playio.interfaces;
 
 import com.celerii.playio.mods.AlbumResponse;
 import com.celerii.playio.mods.ArtistResponse;

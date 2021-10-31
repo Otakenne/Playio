@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="bottom_nav"
+            type="com.celerii.playio.mods.BottomNavigation" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,8 +21,6 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:background="?toolbar_color"
-            app:title=""
-            app:titleTextAppearance="@style/Toolbar.TitleText"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -49,7 +53,7 @@
             android:layout_marginTop="@dimen/bottom_nav_top_and_base_margin"
             android:layout_marginStart="@dimen/standard_top_margin"
             android:layout_marginEnd="@dimen/standard_top_margin"
-            android:layout_marginBottom="@dimen/bottom_nav_top_and_base_margin"
+            android:layout_marginBottom="@dimen/standard_top_margin"
             android:background="@drawable/bottom_nav_and_play_controls_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +70,7 @@
                     android:id="@+id/profile_picture_clipper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:background="@drawable/profile_picture_background"
                     app:layout_constraintTop_toBottomOf="@id/welcome_text"
                     app:layout_constraintStart_toEndOf="@id/home_seller_text"
@@ -89,26 +93,20 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:textColor="?defaultTextColor"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
                     android:text="Ice Prince - Oleku"/>
 
                 <ImageView
                     android:id="@+id/play_button"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_play_accent"
                     android:contentDescription="@string/play_button" />
             </LinearLayout>
-
-            <View
-                android:id="@+id/separator_view"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/standard_top_margin"
-                android:layout_marginBottom="@dimen/standard_top_margin"
-                android:layout_marginStart="@dimen/separator_view_edge_margin"
-                android:layout_marginEnd="@dimen/separator_view_edge_margin" />
 
             <LinearLayout
                 android:id="@+id/bottom_navigation"
@@ -124,40 +122,44 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:src="@drawable/placeholdericon"
+                    android:src="@drawable/ic_home"
                     android:clickable="true"
                     android:focusable="true"
-                    android:contentDescription="@string/home_bottom_navigation_button"/>
+                    android:contentDescription="@string/home_bottom_navigation_button"
+                    app:iconHome="@{bottom_nav.bottomNavigationItems}"/>
 
                 <ImageView
                     android:id="@+id/tracks"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:src="@drawable/placeholdericon"
+                    android:src="@drawable/ic_track"
                     android:clickable="true"
                     android:focusable="true"
-                    android:contentDescription="@string/tracks_bottom_navigation_button"/>
+                    android:contentDescription="@string/tracks_bottom_navigation_button"
+                    app:iconTrack="@{bottom_nav.bottomNavigationItems}" />
 
                 <ImageView
                     android:id="@+id/artists"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:src="@drawable/placeholdericon"
+                    android:src="@drawable/ic_artist"
                     android:clickable="true"
                     android:focusable="true"
-                    android:contentDescription="@string/artists_bottom_navigation_button"/>
+                    android:contentDescription="@string/artists_bottom_navigation_button"
+                    app:iconArtist="@{bottom_nav.bottomNavigationItems}"/>
 
                 <ImageView
                     android:id="@+id/albums"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:src="@drawable/placeholdericon"
+                    android:src="@drawable/ic_album"
                     android:clickable="true"
                     android:focusable="true"
-                    android:contentDescription="@string/albums_bottom_navigation_button"/>
+                    android:contentDescription="@string/albums_bottom_navigation_button"
+                    app:iconAlbum="@{bottom_nav.bottomNavigationItems}"/>
             </LinearLayout>
         </LinearLayout>
 

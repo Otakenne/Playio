@@ -1,47 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/artist_picture_clipper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/home_artists_row_artist_picture_margin"
-        android:background="@drawable/artist_profile_picture_background"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/artist_name"
-        app:layout_constraintBottom_toBottomOf="parent" >
+    <data>
+        <variable
+            name="artist"
+            type="com.celerii.playio.mods.Artist" />
 
-        <ImageView
-            android:id="@+id/artist_picture"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:contentDescription="@string/artist_picture"/>
-    </LinearLayout>
+    </data>
 
-    <TextView
-        android:id="@+id/artist_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/home_artists_row_artist_picture_margin"
-        android:gravity="center"
-        android:ellipsize="end"
-        android:maxLines="2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/artist_picture_clipper"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0.5dp"
-        android:layout_marginStart="@dimen/separator_view_edge_margin"
-        android:layout_marginEnd="@dimen/separator_view_edge_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <LinearLayout
+            android:id="@+id/artist_picture_clipper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/standard_top_margin"
+            android:background="@drawable/artist_profile_picture_background"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/artist_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:clipToOutline="@{true}">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/artist_picture"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="@string/artist_picture"
+                app:image="@{artist.image}"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/artist_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/standard_top_margin"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textStyle="bold"
+            android:text="@{artist.name}"
+            style="@style/HeaderTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/artist_picture_clipper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="@dimen/separator_view_edge_margin"
+            android:layout_marginEnd="@dimen/separator_view_edge_margin"
+            android:background="?defaultColorSecondary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
