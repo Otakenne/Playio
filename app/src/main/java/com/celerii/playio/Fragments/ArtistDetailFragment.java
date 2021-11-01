@@ -1,5 +1,6 @@
 package com.celerii.playio.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.celerii.playio.Adapters.ArtistDetailAdapter;
+import com.celerii.playio.Enums.BottomNavigationItems;
 import com.celerii.playio.R;
 import com.celerii.playio.Utility.Constants;
 import com.celerii.playio.ViewModels.TracksViewModel;
@@ -35,8 +37,10 @@ public class ArtistDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ArtistDetailFragment newInstance() {
-        return new ArtistDetailFragment();
+    public static ArtistDetailFragment newInstance(Artist artistParameter) {
+        ArtistDetailFragment artistDetailFragment = new ArtistDetailFragment();
+        artist = artistParameter;
+        return artistDetailFragment;
     }
 
     @Override
@@ -69,9 +73,20 @@ public class ArtistDetailFragment extends Fragment {
         fragmentArtistDetailBinding.trackList.setVisibility(View.GONE);
 
         tracks = new ArrayList<>();
-        artist = null;
         artistDetailAdapter = new ArtistDetailAdapter(tracks, artist);
         fragmentArtistDetailBinding.trackList.setAdapter(artistDetailAdapter);
         fragmentArtistDetailBinding.trackList.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    @Override
+    public void onDestroy() {
+//        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//        editor.putBoolean(Constants.HOME_ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
+//        editor.putBoolean(Constants.ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
+//        editor.apply();
+
+        super.onDestroy();
     }
 }

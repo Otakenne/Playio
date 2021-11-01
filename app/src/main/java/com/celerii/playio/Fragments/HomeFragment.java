@@ -3,6 +3,7 @@ package com.celerii.playio.Fragments;
 import android.content.res.Resources;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import com.celerii.playio.R;
 import com.celerii.playio.ViewModels.HomeViewModels;;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *

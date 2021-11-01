@@ -21,7 +21,7 @@ public class HomeTrackAdapter extends RecyclerView.Adapter<HomeTrackAdapter.MyVi
     private final ArrayList<Track> tracks;
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View view, int position) {
         if (view.getId() == R.id.track_art_clipper) {
             Toast.makeText(view.getContext(), "Track Clicked", Toast.LENGTH_LONG).show();
         }
@@ -53,6 +53,7 @@ public class HomeTrackAdapter extends RecyclerView.Adapter<HomeTrackAdapter.MyVi
     public void onBindViewHolder(@NonNull HomeTrackAdapter.MyViewHolder holder, int position) {
         holder.homeTrendingRowBinding.setTrack(tracks.get(position));
         holder.homeTrendingRowBinding.setClickHandler(this);
+        holder.homeTrendingRowBinding.setPosition(position);
     }
 
     @Override

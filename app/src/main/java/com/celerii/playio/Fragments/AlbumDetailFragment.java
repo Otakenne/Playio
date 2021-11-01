@@ -1,5 +1,6 @@
 package com.celerii.playio.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -39,8 +40,10 @@ public class AlbumDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static AlbumDetailFragment newInstance() {
-        return new AlbumDetailFragment();
+    public static AlbumDetailFragment newInstance(Album albumParameter) {
+        AlbumDetailFragment albumDetailFragment = new AlbumDetailFragment();
+        album = albumParameter;
+        return albumDetailFragment;
     }
 
     @Override
@@ -77,5 +80,17 @@ public class AlbumDetailFragment extends Fragment {
         albumDetailAdapter = new AlbumDetailAdapter(tracks, album);
         fragmentAlbumDetailBinding.trackList.setAdapter(albumDetailAdapter);
         fragmentAlbumDetailBinding.trackList.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    @Override
+    public void onDestroy() {
+//        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//        editor.putBoolean(Constants.HOME_ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
+//        editor.putBoolean(Constants.ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
+//        editor.apply();
+
+        super.onDestroy();
     }
 }

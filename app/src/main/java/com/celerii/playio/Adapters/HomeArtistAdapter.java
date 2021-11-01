@@ -1,12 +1,13 @@
 package com.celerii.playio.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,23 +23,31 @@ import com.celerii.playio.interfaces.OnClickHandlerInterface;
 import com.celerii.playio.mods.Artist;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomeArtistAdapter extends RecyclerView.Adapter<HomeArtistAdapter.MyViewHolder>
     implements OnClickHandlerInterface {
     private final ArrayList<Artist> artists;
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View view, int position) {
         if (view.getId() == R.id.constraint_layout) {
             Context context = view.getContext();
-            Toast.makeText(context, "Artist Clicked", Toast.LENGTH_LONG).show();
             FragmentManager fragmentManager = ((BaseActivity) context).getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            ArtistDetailFragment artistDetailFragment = ArtistDetailFragment.newInstance();
+            ArtistDetailFragment artistDetailFragment = ArtistDetailFragment.newInstance(artists.get(position));
             HomeFragment homeFragment = (HomeFragment) fragmentManager.findFragmentByTag(Constants.HOME_FRAGMENT_TAG);
             fragmentTransaction.add(R.id.fragment_container, artistDetailFragment, Constants.ARTISTS_DETAIL_FRAGMENT_TAG).addToBackStack(null);
             assert homeFragment != null;
             fragmentTransaction.hide(homeFragment).show(artistDetailFragment).commit();
+            if (((AppCompatActivity) view.getContext()).getSupportActionBar() != null) {
+                Objects.requireNonNull(((AppCompatActivity) view.getContext()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+                Objects.requireNonNull(((AppCompatActivity) view.getContext()).getSupportActionBar()).setHomeButtonEnabled(true);
+            }
+            SharedPreferences sharedPreferences = view.getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constants.HOME_ARTIST_DETAILS_FRAGMENT_VISIBLE, true);
+            editor.apply();
         }
     }
 
@@ -68,6 +77,7 @@ public class HomeArtistAdapter extends RecyclerView.Adapter<HomeArtistAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.homeArtistsRowBinding.setArtist(artists.get(position));
         holder.homeArtistsRowBinding.setClickHandler(this);
+        holder.homeArtistsRowBinding.setPosition(position);
     }
 
     @Override

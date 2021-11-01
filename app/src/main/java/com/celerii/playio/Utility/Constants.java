@@ -20,4 +20,12 @@ public class Constants {
     public static final String ALBUMS_FRAGMENT_TAG = "albums";
     public static final String ARTISTS_DETAIL_FRAGMENT_TAG = "artists_detail";
     public static final String ALBUMS_DETAIL_FRAGMENT_TAG = "albums_detail";
+
+    public static final String HOME_ARTIST_DETAILS_FRAGMENT_VISIBLE = "home_artist_details_fragment_tag";
+    public static final String HOME_ALBUM_DETAILS_FRAGMENT_VISIBLE = "home_album_details_fragment_tag";
+    public static final String ARTIST_DETAILS_FRAGMENT_VISIBLE = "artist_details_fragment_tag";
+    public static final String ALBUM_DETAILS_FRAGMENT_VISIBLE = "album_details_fragment_tag";
+
+    public static final String SHARED_PREFERENCES_KEY = "play_io";
+    public static final int SHARED_PREFERENCES_MODE = 0;
 }
