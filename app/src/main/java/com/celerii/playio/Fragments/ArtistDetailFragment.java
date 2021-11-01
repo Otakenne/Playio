@@ -15,6 +15,7 @@ import com.celerii.playio.Adapters.ArtistDetailAdapter;
 import com.celerii.playio.Enums.BottomNavigationItems;
 import com.celerii.playio.R;
 import com.celerii.playio.Utility.Constants;
+import com.celerii.playio.ViewModels.ArtistTracksViewModel;
 import com.celerii.playio.ViewModels.TracksViewModel;
 import com.celerii.playio.databinding.FragmentArtistDetailBinding;
 import com.celerii.playio.mods.Artist;
@@ -51,11 +52,12 @@ public class ArtistDetailFragment extends Fragment {
 
 
         initializeUI();
-        TracksViewModel tracksViewModel = new TracksViewModel();
-        tracksViewModel.getTracks(Constants.TRACK_TOP_SONG_COUNT).observe(getViewLifecycleOwner(), trackList -> {
+        ArtistTracksViewModel artistTracksViewModel = new ArtistTracksViewModel();
+        artistTracksViewModel.getArtistTracks(Constants.TRACK_TOP_SONG_COUNT, artist.getId()).observe(getViewLifecycleOwner(), trackList -> {
             if (trackList != null && !trackList.isEmpty()) {
                 tracks.clear();
                 tracks.addAll(trackList);
+                tracks.add(0, new Track());
                 artistDetailAdapter.notifyDataSetChanged();
 
                 fragmentArtistDetailBinding.errorLayout.setVisibility(View.GONE);
@@ -80,12 +82,12 @@ public class ArtistDetailFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-//        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//        editor.putBoolean(Constants.HOME_ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
-//        editor.putBoolean(Constants.ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
-//        editor.apply();
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(Constants.HOME_ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
+        editor.putBoolean(Constants.ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
+        editor.apply();
 
         super.onDestroy();
     }

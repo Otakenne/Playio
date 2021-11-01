@@ -7,12 +7,12 @@
     android:orientation="vertical"
     tools:context=".Activities.PlayActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/welcome_toolbar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+<!--    <include-->
+<!--        android:id="@+id/toolbar"-->
+<!--        layout="@layout/welcome_toolbar"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 
     <LinearLayout
         android:layout_width="match_parent"

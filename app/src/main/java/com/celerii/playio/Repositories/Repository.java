@@ -93,7 +93,7 @@ public class Repository {
         Call<TrackResponse> call = RetrofitClient
                 .getInstance()
                 .getMyAPIInterface()
-                .getArtistTracks(Constants.CLIENT_ID,
+                .getAlbumTracks(Constants.CLIENT_ID,
                         Constants.FORMAT,
                         limit,
                         Constants.IMAGE_SIZE,

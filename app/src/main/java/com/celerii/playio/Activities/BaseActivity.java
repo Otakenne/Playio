@@ -240,7 +240,8 @@ public class BaseActivity extends AppCompatActivity {
 
         // Initialize Toolbar
         setSupportActionBar(activityBaseBinding.toolbar);
-        activityBaseBinding.toolbar.setTitle("");
+        activityBaseBinding.toolbar.setTitle(null);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         activityBaseBinding.toolbarTitle.setText(getString(R.string.app_name));
 
         activityBaseBinding.smartPlayControls.setVisibility(View.GONE);

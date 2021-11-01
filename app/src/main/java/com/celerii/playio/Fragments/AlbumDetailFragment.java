@@ -2,28 +2,25 @@ package com.celerii.playio.Fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.celerii.playio.Adapters.AlbumDetailAdapter;
-import com.celerii.playio.Adapters.ArtistDetailAdapter;
 import com.celerii.playio.R;
 import com.celerii.playio.Utility.Constants;
-import com.celerii.playio.ViewModels.TracksViewModel;
+import com.celerii.playio.ViewModels.AlbumTracksViewModel;
 import com.celerii.playio.databinding.FragmentAlbumDetailBinding;
-import com.celerii.playio.databinding.FragmentArtistDetailBinding;
 import com.celerii.playio.mods.Album;
-import com.celerii.playio.mods.Artist;
 import com.celerii.playio.mods.Track;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -54,11 +51,12 @@ public class AlbumDetailFragment extends Fragment {
 
 
         initializeUI();
-        TracksViewModel tracksViewModel = new TracksViewModel();
-        tracksViewModel.getTracks(Constants.TRACK_TOP_SONG_COUNT).observe(getViewLifecycleOwner(), trackList -> {
+        AlbumTracksViewModel albumTracksViewModel = new AlbumTracksViewModel();
+        albumTracksViewModel.getAlbumTracks(Constants.TRACK_TOP_SONG_COUNT, album.getId()).observe(getViewLifecycleOwner(), trackList -> {
             if (trackList != null && !trackList.isEmpty()) {
                 tracks.clear();
                 tracks.addAll(trackList);
+                tracks.add(0, new Track());
                 albumDetailAdapter.notifyDataSetChanged();
 
                 fragmentAlbumDetailBinding.errorLayout.setVisibility(View.GONE);
@@ -76,7 +74,6 @@ public class AlbumDetailFragment extends Fragment {
         fragmentAlbumDetailBinding.trackList.setVisibility(View.GONE);
 
         tracks = new ArrayList<>();
-        album = null;
         albumDetailAdapter = new AlbumDetailAdapter(tracks, album);
         fragmentAlbumDetailBinding.trackList.setAdapter(albumDetailAdapter);
         fragmentAlbumDetailBinding.trackList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -84,12 +81,12 @@ public class AlbumDetailFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-//        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//        editor.putBoolean(Constants.HOME_ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
-//        editor.putBoolean(Constants.ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
-//        editor.apply();
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(Constants.HOME_ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
+        editor.putBoolean(Constants.ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
+        editor.apply();
 
         super.onDestroy();
     }
