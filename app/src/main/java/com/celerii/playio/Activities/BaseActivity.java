@@ -311,17 +311,4 @@ public class BaseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    protected void onDestroy() {
-//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//        editor.putBoolean(Constants.HOME_ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
-//        editor.putBoolean(Constants.ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
-//        editor.putBoolean(Constants.HOME_ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
-//        editor.putBoolean(Constants.ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
-//        editor.apply();
-        super.onDestroy();
-    }
 }
