@@ -167,14 +167,16 @@ public class BaseActivity extends AppCompatActivity {
 
     private void showHomeFragment() {
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
+        boolean isHomeArtistDetailsFragmentVisible = sharedPreferences.getBoolean(Constants.HOME_ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
+        boolean isHomeAlbumDetailsFragmentVisible = sharedPreferences.getBoolean(Constants.HOME_ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
 
-        if (sharedPreferences.getBoolean(Constants.HOME_ARTIST_DETAILS_FRAGMENT_VISIBLE, false)) {
+        if (isHomeArtistDetailsFragmentVisible) {
             activeFrag = getVisibleFragment();
             artistDetailFragment = (ArtistDetailFragment) fragmentManager.findFragmentByTag(Constants.ARTISTS_DETAIL_FRAGMENT_TAG);
             fragmentManager.beginTransaction().hide(activeFrag).show(artistDetailFragment).commit();
             activeFrag = artistDetailFragment;
             setActionBarHomeButton(true);
-        } else if (sharedPreferences.getBoolean(Constants.HOME_ALBUM_DETAILS_FRAGMENT_VISIBLE, false)) {
+        } else if (isHomeAlbumDetailsFragmentVisible) {
             activeFrag = getVisibleFragment();
             albumDetailFragment = (AlbumDetailFragment) fragmentManager.findFragmentByTag(Constants.ALBUMS_DETAIL_FRAGMENT_TAG);
             fragmentManager.beginTransaction().hide(activeFrag).show(albumDetailFragment).commit();
@@ -308,5 +310,18 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//        editor.putBoolean(Constants.HOME_ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
+//        editor.putBoolean(Constants.ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
+//        editor.putBoolean(Constants.HOME_ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
+//        editor.putBoolean(Constants.ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
+//        editor.apply();
+        super.onDestroy();
     }
 }

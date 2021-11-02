@@ -82,13 +82,6 @@ public class ArtistDetailFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putBoolean(Constants.HOME_ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
-        editor.putBoolean(Constants.ARTIST_DETAILS_FRAGMENT_VISIBLE, false);
-        editor.apply();
-
         super.onDestroy();
     }
 }

@@ -81,13 +81,6 @@ public class AlbumDetailFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, Constants.SHARED_PREFERENCES_MODE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putBoolean(Constants.HOME_ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
-        editor.putBoolean(Constants.ALBUM_DETAILS_FRAGMENT_VISIBLE, false);
-        editor.apply();
-
         super.onDestroy();
     }
 }
