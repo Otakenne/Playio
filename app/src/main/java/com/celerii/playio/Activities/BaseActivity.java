@@ -190,6 +190,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private void showTracksFragment() {
         showFragment(tracksFragment);
+        setActionBarHomeButton(false);
         bottomNavigation.setBottomNavigationItems(BottomNavigationItems.TRACK);
     }
 
