@@ -8,11 +8,16 @@
         <variable
             name="bottom_nav"
             type="com.celerii.playio.mods.BottomNavigation" />
+
+        <variable
+            name="playControl"
+            type="com.celerii.playio.mods.SmartPlayControls" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         tools:context=".Activities.BaseActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -106,6 +111,13 @@
                     android:layout_gravity="center"
                     android:src="@drawable/ic_play_accent"
                     android:contentDescription="@string/play_button" />
+
+                <ProgressBar
+                    android:id="@+id/buffering_progress_bar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
             <LinearLayout

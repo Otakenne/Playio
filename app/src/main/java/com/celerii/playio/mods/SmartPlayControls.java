@@ -4,6 +4,12 @@ public class SmartPlayControls {
     String currentSong, currentSongImageURL;
     boolean isPlaying;
 
+    public SmartPlayControls() {
+        this.currentSong = "";
+        this.currentSongImageURL = "";
+        this.isPlaying = false;
+    }
+
     public String getCurrentSong() {
         return currentSong;
     }

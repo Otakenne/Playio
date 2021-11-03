@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Register Service -->
+        <service android:name=".Services.MusicService" />
     </application>
 
 </manifest>

@@ -1,5 +1,7 @@
 package com.celerii.playio.Utility;
 
+import com.celerii.playio.BuildConfig;
+
 public class Constants {
     public static final String BASE_URL = "https://api.jamendo.com/v3.0/";
     public static final String CLIENT_ID = "9d795cbb";
@@ -28,4 +30,9 @@ public class Constants {
 
     public static final String SHARED_PREFERENCES_KEY = "play_io";
     public static final int SHARED_PREFERENCES_MODE = 0;
+
+    public static final String MUSIC_PLAYER_ON_SET_INFO_LISTENER_BROADCAST_INTENT_FILTER = BuildConfig.APPLICATION_ID + ".MUSIC_PLAYER_ON_SET_INFO_LISTENER_BROADCAST_INTENT_FILTER";
+    public static final String MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER = BuildConfig.APPLICATION_ID + ".MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER";
+    public static final String MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER = BuildConfig.APPLICATION_ID + ".MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER";
+    public static final String MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER = BuildConfig.APPLICATION_ID + ".MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER";
 }

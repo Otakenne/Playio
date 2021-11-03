@@ -8,8 +8,14 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -153,6 +159,11 @@ public class BaseActivity extends AppCompatActivity {
         activityBaseBinding.artists.setOnClickListener(v -> showArtistsFragment());
 
         activityBaseBinding.albums.setOnClickListener(v -> showAlbumsFragment());
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(setInfoBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_SET_INFO_LISTENER_BROADCAST_INTENT_FILTER));
+        LocalBroadcastManager.getInstance(this).registerReceiver(preparedBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER));
+        LocalBroadcastManager.getInstance(this).registerReceiver(completedBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER));
+        LocalBroadcastManager.getInstance(this).registerReceiver(errorBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER));
     }
 
     private Fragment getVisibleFragment() {
@@ -311,4 +322,43 @@ public class BaseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public BroadcastReceiver setInfoBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int what = intent.getIntExtra("what", MediaPlayer.MEDIA_INFO_BUFFERING_START);
+            activityBaseBinding.smartPlayControls.setVisibility(View.VISIBLE);
+
+            if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+                activityBaseBinding.playButton.setVisibility(View.GONE);
+                activityBaseBinding.bufferingProgressBar.setVisibility(View.VISIBLE);
+            } else if (what == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
+                activityBaseBinding.playButton.setVisibility(View.VISIBLE);
+                activityBaseBinding.bufferingProgressBar.setVisibility(View.GONE);
+            }
+        }
+    };
+
+    public BroadcastReceiver preparedBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            activityBaseBinding.smartPlayControls.setVisibility(View.VISIBLE);
+            activityBaseBinding.playButton.setVisibility(View.VISIBLE);
+            activityBaseBinding.bufferingProgressBar.setVisibility(View.GONE);
+        }
+    };
+
+    public BroadcastReceiver completedBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
+    };
+
+    public BroadcastReceiver errorBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
+    };
 }

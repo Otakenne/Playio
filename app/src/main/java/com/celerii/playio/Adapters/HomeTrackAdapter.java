@@ -1,5 +1,7 @@
 package com.celerii.playio.Adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.celerii.playio.Services.MusicService;
 import com.celerii.playio.interfaces.OnClickHandlerInterface;
 import com.celerii.playio.mods.Track;
 import com.celerii.playio.R;
@@ -23,7 +26,10 @@ public class HomeTrackAdapter extends RecyclerView.Adapter<HomeTrackAdapter.MyVi
     @Override
     public void onClick(View view, int position) {
         if (view.getId() == R.id.track_art_clipper) {
-            Toast.makeText(view.getContext(), "Track Clicked", Toast.LENGTH_LONG).show();
+            Context context = view.getContext();
+            Intent musicIntent = new Intent(context, MusicService.class);
+            musicIntent.putExtra("track_url", tracks.get(position).getAudio());
+            context.startService(musicIntent);
         }
     }
 
