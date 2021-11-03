@@ -1,8 +1,19 @@
 package com.celerii.playio.mods;
 
-public class SmartPlayControls {
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.core.content.ContextCompat;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.BindingAdapter;
+
+import com.bumptech.glide.Glide;
+import com.celerii.playio.BR;
+import com.celerii.playio.R;
+
+public class SmartPlayControls extends BaseObservable {
     String currentSong, currentSongImageURL;
-    boolean isPlaying;
+    boolean isPlaying, isLoading;
 
     public SmartPlayControls() {
         this.currentSong = "";
@@ -16,6 +27,7 @@ public class SmartPlayControls {
 
     public void setCurrentSong(String currentSong) {
         this.currentSong = currentSong;
+        notifyPropertyChanged(BR.currentSong);
     }
 
     public String getCurrentSongImageURL() {
@@ -32,5 +44,32 @@ public class SmartPlayControls {
 
     public void setPlaying(boolean playing) {
         isPlaying = playing;
+    }
+
+    @BindingAdapter("image")
+    public static void loadImage(ImageView imageView, String imageURL) {
+        if (imageURL != null) {
+            Glide.with(imageView.getContext())
+                    .load(imageURL)
+                    .into(imageView);
+        }
+    }
+
+    @BindingAdapter("icon")
+    public static void setIcon(ImageView imageView, boolean isPlaying) {
+        if (isPlaying) {
+            imageView.setImageDrawable(ContextCompat.getDrawable(imageView.getContext(), R.drawable.ic_pause_accent));
+        } else {
+            imageView.setImageDrawable(ContextCompat.getDrawable(imageView.getContext(), R.drawable.ic_play_accent));
+        }
+    }
+
+    @BindingAdapter("visibility")
+    public static void setVisibility(View view, boolean isVisible) {
+        if (isVisible) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.GONE);
+        }
     }
 }

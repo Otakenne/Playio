@@ -32,6 +32,7 @@ import com.celerii.playio.R;
 import com.celerii.playio.Utility.Constants;
 import com.celerii.playio.databinding.ActivityBaseBinding;
 import com.celerii.playio.mods.BottomNavigation;
+import com.celerii.playio.mods.SmartPlayControls;
 
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +45,7 @@ public class BaseActivity extends AppCompatActivity {
 
     ActivityBaseBinding activityBaseBinding;
     BottomNavigation bottomNavigation;
+    SmartPlayControls smartPlayControls;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
