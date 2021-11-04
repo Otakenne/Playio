@@ -22,6 +22,7 @@ import com.celerii.playio.Utility.Constants;
 import com.celerii.playio.databinding.ActivityPlayBinding;
 import com.celerii.playio.interfaces.OnClickHandlerInterface;
 import com.celerii.playio.mods.SmartPlayControls;
+import com.celerii.playio.mods.Track;
 
 import java.util.Objects;
 
@@ -30,6 +31,8 @@ public class PlayActivity extends AppCompatActivity implements OnClickHandlerInt
     private ActivityPlayBinding activityPlayBinding;
     public static SmartPlayControls smartPlayControls;
 
+    private Track currentTrack = null;
+
     private MusicService musicService;
     private Intent musicIntent;
 
@@ -37,6 +40,12 @@ public class PlayActivity extends AppCompatActivity implements OnClickHandlerInt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityPlayBinding = DataBindingUtil.setContentView(this, R.layout.activity_play);
+
+        activityPlayBinding.setClickHandler(this);
+        activityPlayBinding.setPlayControl(smartPlayControls);
+
+        Bundle bundle = getIntent().getExtras();
+        currentTrack = (Track) bundle.getSerializable("current_track");
 
         setSupportActionBar(activityPlayBinding.toolbar);
         activityPlayBinding.toolbar.setTitle(null);
@@ -71,6 +80,16 @@ public class PlayActivity extends AppCompatActivity implements OnClickHandlerInt
                 musicService.play();
                 smartPlayControls.setPlaying(true);
             }
+        } else if (viewID == R.id.shuffle) {
+            musicService.shuffle();
+            smartPlayControls.setShuffle(true);
+        } else if (viewID == R.id.previous) {
+            musicService.previousSong();
+        } else if (viewID == R.id.next) {
+            musicService.nextSong();
+        } else if (viewID == R.id.repeat) {
+            musicService.repeat();
+            smartPlayControls.setRepeating(true);
         }
     }
 

@@ -18,6 +18,7 @@
         <item name="defaultTextColor">@color/white</item>
         <item name="toolbar_color">#1c1c1e</item>
         <item name="accent_color">#E2374D</item>
+        <item name="fadedAccent">#55E2374D</item>
         <item name="separator_view_color">#BFD6D5</item>
         <item name="picture_background_color">#B8B8D6</item>
 

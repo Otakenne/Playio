@@ -78,6 +78,16 @@ public class SmartPlayControls extends BaseObservable implements Parcelable {
     }
 
     @Bindable
+    public String getCurrentSongArtist() {
+        return currentSongArtist;
+    }
+
+    public void setCurrentSongArtist(String currentSongArtist) {
+        this.currentSongArtist = currentSongArtist;
+        notifyPropertyChanged(BR.currentSongArtist);
+    }
+
+    @Bindable
     public boolean isPlaying() {
         return isPlaying;
     }
@@ -95,6 +105,36 @@ public class SmartPlayControls extends BaseObservable implements Parcelable {
     public void setLoading(boolean loading) {
         isLoading = loading;
         notifyPropertyChanged(BR.loading);
+    }
+
+    @Bindable
+    public boolean isLoadFailed() {
+        return loadFailed;
+    }
+
+    public void setLoadFailed(boolean loadFailed) {
+        this.loadFailed = loadFailed;
+        notifyPropertyChanged(BR.loadFailed);
+    }
+
+    @Bindable
+    public boolean isShuffle() {
+        return isShuffle;
+    }
+
+    public void setShuffle(boolean shuffle) {
+        isShuffle = shuffle;
+        notifyPropertyChanged(BR.shuffle);
+    }
+
+    @Bindable
+    public boolean isRepeating() {
+        return isRepeating;
+    }
+
+    public void setRepeating(boolean repeating) {
+        isRepeating = repeating;
+        notifyPropertyChanged(BR.repeating);
     }
 
     @BindingAdapter("image")
@@ -121,6 +161,15 @@ public class SmartPlayControls extends BaseObservable implements Parcelable {
             view.setVisibility(View.VISIBLE);
         } else {
             view.setVisibility(View.GONE);
+        }
+    }
+
+    @BindingAdapter("customBackground")
+    public static void setCustomBackground(View view, boolean showBackground) {
+        if (showBackground) {
+            view.setBackgroundResource(R.drawable.accent_circle_background);
+        } else {
+            view.setBackgroundResource(0);
         }
     }
 }

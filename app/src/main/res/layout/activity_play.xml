@@ -8,6 +8,10 @@
         <variable
             name="playControl"
             type="com.celerii.playio.mods.SmartPlayControls" />
+
+        <variable
+            name="clickHandler"
+            type="com.celerii.playio.interfaces.OnClickHandlerInterface" />
     </data>
 
     <LinearLayout
@@ -172,24 +176,33 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:onClick="@{(v)->clickHandler.onClick(v, 0)}">
 
-                    <ImageButton
-                        android:id="@+id/shuffle"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/ic_shuffle_accent"
-                        android:contentDescription="@string/shuffle"/>
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        app:customBackground="@{playControl.repeating}">
+
+                        <ImageButton
+                            android:id="@+id/shuffle"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/ic_shuffle_accent"
+                            android:contentDescription="@string/shuffle"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:onClick="@{(v)->clickHandler.onClick(v, 0)}">
 
                     <ImageButton
                         android:id="@+id/previous"
@@ -204,7 +217,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:onClick="@{(v)->clickHandler.onClick(v, 0)}" >
 
                     <ImageButton
                         android:id="@+id/play_pause"
@@ -216,9 +230,10 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:onClick="@{(v)->clickHandler.onClick(v, 0)}">
 
                     <ImageButton
                         android:id="@+id/next"
@@ -231,16 +246,25 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:onClick="@{(v)->clickHandler.onClick(v, 0)}">
 
-                    <ImageButton
-                        android:id="@+id/repeat"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/ic_repeat_accent"
-                        android:contentDescription="@string/repeat"/>
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        app:customBackground="@{playControl.repeating}">
+
+                        <ImageButton
+                            android:id="@+id/repeat"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/ic_repeat_accent"
+                            android:contentDescription="@string/repeat"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

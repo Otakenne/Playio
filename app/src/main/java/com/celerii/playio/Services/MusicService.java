@@ -28,6 +28,7 @@ public class MusicService extends Service {
 
     private int currentlyPlaying = 0;
     private boolean setRepeat = true;
+    private boolean setShuffle = true;
 
     MediaPlayer musicPlayer;
 
@@ -175,7 +176,7 @@ public class MusicService extends Service {
     }
 
     public void shuffle() {
-
+        setShuffle = !setShuffle;
     }
 
     public void pause() {
