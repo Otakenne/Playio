@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.BindingAdapter;
+import androidx.databinding.Bindable;
 
 import com.bumptech.glide.Glide;
 import com.celerii.playio.BR;
@@ -19,8 +20,10 @@ public class SmartPlayControls extends BaseObservable {
         this.currentSong = "";
         this.currentSongImageURL = "";
         this.isPlaying = false;
+        this.isLoading = false;
     }
 
+    @Bindable
     public String getCurrentSong() {
         return currentSong;
     }
@@ -30,20 +33,34 @@ public class SmartPlayControls extends BaseObservable {
         notifyPropertyChanged(BR.currentSong);
     }
 
+    @Bindable
     public String getCurrentSongImageURL() {
         return currentSongImageURL;
     }
 
     public void setCurrentSongImageURL(String currentSongImageURL) {
         this.currentSongImageURL = currentSongImageURL;
+        notifyPropertyChanged(BR.currentSongImageURL);
     }
 
+    @Bindable
     public boolean isPlaying() {
         return isPlaying;
     }
 
     public void setPlaying(boolean playing) {
         isPlaying = playing;
+        notifyPropertyChanged(BR.playing);
+    }
+
+    @Bindable
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+        notifyPropertyChanged(BR.loading);
     }
 
     @BindingAdapter("image")

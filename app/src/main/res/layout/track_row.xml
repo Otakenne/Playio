@@ -8,11 +8,20 @@
             name="track"
             type="com.celerii.playio.mods.Track" />
 
+        <variable
+            name="clickHandler"
+            type="com.celerii.playio.interfaces.OnClickHandlerInterface" />
+
+        <variable
+            name="position"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{(v)->clickHandler.onClick(v, position)}">
 
         <LinearLayout
             android:id="@+id/track_art_clipper"

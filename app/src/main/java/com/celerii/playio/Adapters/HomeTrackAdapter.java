@@ -1,35 +1,50 @@
 package com.celerii.playio.Adapters;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.celerii.playio.Services.MusicService;
-import com.celerii.playio.interfaces.OnClickHandlerInterface;
-import com.celerii.playio.mods.Track;
+import com.celerii.playio.Activities.BaseActivity;
 import com.celerii.playio.R;
+import com.celerii.playio.Services.MusicService;
+import com.celerii.playio.Utility.Constants;
 import com.celerii.playio.databinding.HomeTrendingRowBinding;
+import com.celerii.playio.interfaces.OnClickHandlerInterface;
+import com.celerii.playio.mods.SmartPlayControls;
+import com.celerii.playio.mods.Track;
 
 import java.util.ArrayList;
 
 public class HomeTrackAdapter extends RecyclerView.Adapter<HomeTrackAdapter.MyViewHolder>
     implements OnClickHandlerInterface {
     private final ArrayList<Track> tracks;
+    private MusicService musicService;
 
     @Override
     public void onClick(View view, int position) {
         if (view.getId() == R.id.track_art_clipper) {
             Context context = view.getContext();
             Intent musicIntent = new Intent(context, MusicService.class);
-            musicIntent.putExtra("track_url", tracks.get(position).getAudio());
+            ArrayList<Track> trackList = new ArrayList<>();
+            trackList.add(tracks.get(position));
+            musicIntent.putExtra(Constants.TRACK_LIST_FOR_MUSIC_SERVICE_INTENT, trackList);
             context.startService(musicIntent);
+            context.bindService(musicIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+            BaseActivity.smartPlayControls.setLoading(true);
+            Intent showSmartPlayControlsIntent = new Intent(Constants.SHOW_SMART_CONTROLS);
+            showSmartPlayControlsIntent.putExtra("show_play_controls", true);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(showSmartPlayControlsIntent);
         }
     }
 
@@ -66,4 +81,16 @@ public class HomeTrackAdapter extends RecyclerView.Adapter<HomeTrackAdapter.MyVi
     public int getItemCount() {
         return tracks.size();
     }
+
+    public final ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            musicService = ((MusicService.MusicServiceBinder) service).getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicService = null;
+        }
+    };
 }

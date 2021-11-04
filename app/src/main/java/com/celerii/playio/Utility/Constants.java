@@ -35,4 +35,12 @@ public class Constants {
     public static final String MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER = BuildConfig.APPLICATION_ID + ".MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER";
     public static final String MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER = BuildConfig.APPLICATION_ID + ".MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER";
     public static final String MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER = BuildConfig.APPLICATION_ID + ".MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER";
+
+    public static final String TRACK_LIST_FOR_MUSIC_SERVICE_INTENT = "track_list";
+    public static final String TRACK_URL_FOR_MUSIC_SERVICE_INTENT = "track_url";
+    public static final String TRACK_NAME_FOR_MUSIC_SERVICE_INTENT = "track_name";
+    public static final String TRACK_ARTIST_FOR_MUSIC_SERVICE_INTENT = "track_artist";
+    public static final String TRACK_IMAGE_URL_FOR_MUSIC_SERVICE_INTENT = "track_image_url";
+
+    public static final String SHOW_SMART_CONTROLS = "show_smart_controls";
 }

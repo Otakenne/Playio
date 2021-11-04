@@ -12,6 +12,10 @@
         <variable
             name="playControl"
             type="com.celerii.playio.mods.SmartPlayControls" />
+
+        <variable
+            name="clickHandler"
+            type="com.celerii.playio.interfaces.OnClickHandlerInterface" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,7 +91,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:contentDescription="@string/track_art"
-                        android:image="@{playControl.currentSongImageURL}"/>
+                        app:image="@{playControl.currentSongImageURL}"/>
 
                 </LinearLayout>
 
@@ -111,7 +115,10 @@
                     android:layout_margin="20dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_play_accent"
-                    android:contentDescription="@string/play_button" />
+                    android:contentDescription="@string/play_button"
+                    android:onClick="@{(v)->clickHandler.onClick(v, 0)}"
+                    app:icon="@{playControl.playing}"
+                    app:visibility="@{!playControl.loading}"/>
 
                 <ProgressBar
                     android:id="@+id/buffering_progress_bar"
@@ -119,7 +126,7 @@
                     android:layout_height="50dp"
                     android:layout_margin="20dp"
                     android:layout_gravity="center"
-                    />
+                    app:visibility="@{playControl.loading}" />
             </LinearLayout>
 
             <LinearLayout

@@ -12,10 +12,23 @@ import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.celerii.playio.Utility.Constants;
+import com.celerii.playio.mods.Track;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class MusicService extends Service {
     private final IBinder basBinder = new MusicServiceBinder();
     private String streamURL = "";
+    private String artist = "";
+    private String name = "";
+    private String imageURL = "";
+
+    private ArrayList<Track> tracks;
+
+    private int currentlyPlaying = 0;
+    private boolean setRepeat = false;
+
     MediaPlayer musicPlayer;
 
     @Nullable
@@ -28,46 +41,78 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        musicPlayer = new MediaPlayer();
-        musicPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        if (musicPlayer == null) {
+            musicPlayer = new MediaPlayer();
+            musicPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        }
 
-        musicPlayer.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-            @Override
-            public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                Intent setInfoIntent = new Intent(Constants.MUSIC_PLAYER_ON_SET_INFO_LISTENER_BROADCAST_INTENT_FILTER);
-                setInfoIntent.putExtra("what", what);
-                LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(setInfoIntent);
-                return false;
+        musicPlayer.setOnInfoListener((mp, what, extra) -> {
+            Intent setInfoIntent = new Intent(Constants.MUSIC_PLAYER_ON_SET_INFO_LISTENER_BROADCAST_INTENT_FILTER);
+            setInfoIntent.putExtra("what", what);
+            LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(setInfoIntent);
+            return false;
+        });
+
+        musicPlayer.setOnPreparedListener(mp -> {
+            mp.start();
+            Intent preparedIntent = new Intent(Constants.MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER);
+            preparedIntent.putExtra("isReady", true);
+            preparedIntent.putExtra(Constants.TRACK_URL_FOR_MUSIC_SERVICE_INTENT, streamURL);
+            preparedIntent.putExtra(Constants.TRACK_NAME_FOR_MUSIC_SERVICE_INTENT, name);
+            preparedIntent.putExtra(Constants.TRACK_ARTIST_FOR_MUSIC_SERVICE_INTENT, artist);
+            preparedIntent.putExtra(Constants.TRACK_IMAGE_URL_FOR_MUSIC_SERVICE_INTENT, imageURL);
+            LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(preparedIntent);
+        });
+
+        musicPlayer.setOnCompletionListener(mp -> {
+            if (currentlyPlaying < tracks.size()) {
+                currentlyPlaying++;
+
+                streamURL = tracks.get(currentlyPlaying).getAudio();
+                name = tracks.get(currentlyPlaying).getName();
+                artist = tracks.get(currentlyPlaying).getArtist_name();
+                imageURL = tracks.get(currentlyPlaying).getImage();
+
+                musicPlayer.reset();
+                try {
+                    musicPlayer.setDataSource(streamURL);
+                } catch (IOException e) {
+                    Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
+                    completeIntent.putExtra("isComplete", true);
+                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(completeIntent);
+                }
+                musicPlayer.prepareAsync();
+            } else {
+                if (setRepeat) {
+                    currentlyPlaying = 0;
+
+                    streamURL = tracks.get(currentlyPlaying).getAudio();
+                    name = tracks.get(currentlyPlaying).getName();
+                    artist = tracks.get(currentlyPlaying).getArtist_name();
+                    imageURL = tracks.get(currentlyPlaying).getImage();
+
+                    musicPlayer.reset();
+                    try {
+                        musicPlayer.setDataSource(streamURL);
+                    } catch (IOException e) {
+                        Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
+                        completeIntent.putExtra("isComplete", true);
+                        LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(completeIntent);
+                    }
+                    musicPlayer.prepareAsync();
+                } else {
+                    Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
+                    completeIntent.putExtra("isComplete", true);
+                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(completeIntent);
+                }
             }
         });
 
-        musicPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.start();
-                Intent preparedIntent = new Intent(Constants.MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER);
-                preparedIntent.putExtra("isReady", true);
-                LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(preparedIntent);
-            }
-        });
-
-        musicPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
-                completeIntent.putExtra("isComplete", true);
-                LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(completeIntent);
-            }
-        });
-
-        musicPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                Intent errorIntent = new Intent(Constants.MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER);
-                errorIntent.putExtra("isError", true);
-                LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(errorIntent);
-                return false;
-            }
+        musicPlayer.setOnErrorListener((mp, what, extra) -> {
+            Intent errorIntent = new Intent(Constants.MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER);
+            errorIntent.putExtra("isError", true);
+            LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(errorIntent);
+            return false;
         });
     }
 
@@ -76,34 +121,42 @@ public class MusicService extends Service {
 
         if (bundle != null) {
             try {
-                streamURL = "https://firebasestorage.googleapis.com/v0/b/altarii-aa0e5.appspot.com/o/ELibrary%2FwAKoSvpuADThnif48BcfcXRrPhx1%2FATB%2C%20Topic%20%26%20A7S%20-%20Your%20Love%20(Lyrics).mp3?alt=media&token=490587b4-8e80-474a-b7b4-62f597efe0ae"; //(String) bundle.get("track_url");
+                tracks = (ArrayList<Track>) intent.getSerializableExtra(Constants.TRACK_LIST_FOR_MUSIC_SERVICE_INTENT);
+
+                currentlyPlaying = 0;
+
+                streamURL = tracks.get(currentlyPlaying).getAudio();
+                name = tracks.get(currentlyPlaying).getName();
+                artist = tracks.get(currentlyPlaying).getArtist_name();
+                imageURL = tracks.get(currentlyPlaying).getImage();
+
+                musicPlayer.reset();
                 musicPlayer.setDataSource(streamURL);
                 musicPlayer.prepareAsync();
-//                musicPlayer.start();
             } catch (Exception e) {
-//            errorText.setVisibility(View.VISIBLE);
+//                errorText.setVisibility(View.VISIBLE);
             }
         }
 
         return Service.START_STICKY;
     }
 
-    public void onStart(Intent intent, int startId) {
-        // TODO
-    }
-
-    public IBinder onUnBind(Intent arg0) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public void onStop() {
-
-    }
-
-    public void onPause() {
-
-    }
+//    public void onStart(Intent intent, int startId) {
+//
+//    }
+//
+//    public IBinder onUnBind(Intent arg0) {
+//
+//        return null;
+//    }
+//
+//    public void onStop() {
+//
+//    }
+//
+//    public void onPause() {
+//
+//    }
 
     @Override
     public void onDestroy() {
@@ -121,7 +174,7 @@ public class MusicService extends Service {
     }
 
     public void repeat() {
-        musicPlayer.setLooping(!musicPlayer.isLooping());
+        setRepeat = !setRepeat;
     }
 
     public void shuffle() {
@@ -156,7 +209,7 @@ public class MusicService extends Service {
     }
 
     public class MusicServiceBinder extends Binder {
-        MusicService getService() {
+        public MusicService getService() {
             return MusicService.this;
         }
     }

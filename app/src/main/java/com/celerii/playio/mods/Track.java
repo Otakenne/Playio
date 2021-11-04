@@ -6,7 +6,9 @@ import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 
-public class Track {
+import java.io.Serializable;
+
+public class Track implements Serializable {
     String id, name, artist_id, artist_name, album_id, album_name, releasedate;
     String album_image, image, audio, shorturl;
     long duration;

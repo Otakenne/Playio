@@ -11,12 +11,15 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,34 +32,39 @@ import com.celerii.playio.Fragments.ArtistsFragment;
 import com.celerii.playio.Fragments.HomeFragment;
 import com.celerii.playio.Fragments.TracksFragment;
 import com.celerii.playio.R;
+import com.celerii.playio.Services.MusicService;
 import com.celerii.playio.Utility.Constants;
 import com.celerii.playio.databinding.ActivityBaseBinding;
+import com.celerii.playio.interfaces.OnClickHandlerInterface;
 import com.celerii.playio.mods.BottomNavigation;
 import com.celerii.playio.mods.SmartPlayControls;
 
 import java.util.List;
 import java.util.Objects;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements OnClickHandlerInterface {
 
     private static final String SELECTED_BOTTOM_NAV_KEY = "selected_bottom_nav_key";
     private static final String ACTION_BAR_HOME_BUTTON_ENABLED_KEY = "action_bar_home_button_enabled_key";
     private static final String ACTIVE_FRAG = "active_frag";
 
-    ActivityBaseBinding activityBaseBinding;
-    BottomNavigation bottomNavigation;
-    SmartPlayControls smartPlayControls;
+    private ActivityBaseBinding activityBaseBinding;
+    private BottomNavigation bottomNavigation;
+    public static SmartPlayControls smartPlayControls;
 
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    Fragment activeFrag;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private Fragment activeFrag;
 
-    HomeFragment homeFragment;
-    TracksFragment tracksFragment;
-    ArtistsFragment artistsFragment;
-    AlbumsFragment albumsFragment;
-    ArtistDetailFragment artistDetailFragment;
-    AlbumDetailFragment albumDetailFragment;
+    private HomeFragment homeFragment;
+    private TracksFragment tracksFragment;
+    private ArtistsFragment artistsFragment;
+    private AlbumsFragment albumsFragment;
+    private ArtistDetailFragment artistDetailFragment;
+    private AlbumDetailFragment albumDetailFragment;
+
+    private MusicService musicService;
+    private Intent musicIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +174,7 @@ public class BaseActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(preparedBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER));
         LocalBroadcastManager.getInstance(this).registerReceiver(completedBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER));
         LocalBroadcastManager.getInstance(this).registerReceiver(errorBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER));
+        LocalBroadcastManager.getInstance(this).registerReceiver(showSmartControlsBroadcastReceiver, new IntentFilter(Constants.SHOW_SMART_CONTROLS));
     }
 
     private Fragment getVisibleFragment() {
@@ -252,13 +261,21 @@ public class BaseActivity extends AppCompatActivity {
     private void initializeUI() {
         // Initialize bottom navigation
         bottomNavigation = new BottomNavigation();
+        smartPlayControls = new SmartPlayControls();
         activityBaseBinding.setBottomNav(bottomNavigation);
+        activityBaseBinding.setPlayControl(smartPlayControls);
+        activityBaseBinding.setClickHandler(this);
 
         // Initialize Toolbar
         setSupportActionBar(activityBaseBinding.toolbar);
         activityBaseBinding.toolbar.setTitle(null);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         activityBaseBinding.toolbarTitle.setText(getString(R.string.app_name));
+
+        // start MusicService
+        musicIntent = new Intent(this, MusicService.class);
+        startService(musicIntent);
+        bindService(musicIntent, serviceConnection, Context.BIND_AUTO_CREATE);
 
         activityBaseBinding.smartPlayControls.setVisibility(View.GONE);
     }
@@ -325,18 +342,24 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(serviceConnection);
+        stopService(musicIntent);
+    }
+
     public BroadcastReceiver setInfoBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             int what = intent.getIntExtra("what", MediaPlayer.MEDIA_INFO_BUFFERING_START);
-            activityBaseBinding.smartPlayControls.setVisibility(View.VISIBLE);
 
             if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
-                activityBaseBinding.playButton.setVisibility(View.GONE);
-                activityBaseBinding.bufferingProgressBar.setVisibility(View.VISIBLE);
+                smartPlayControls.setLoading(true);
+                smartPlayControls.setPlaying(false);
             } else if (what == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
-                activityBaseBinding.playButton.setVisibility(View.VISIBLE);
-                activityBaseBinding.bufferingProgressBar.setVisibility(View.GONE);
+                smartPlayControls.setLoading(false);
+                smartPlayControls.setPlaying(true);
             }
         }
     };
@@ -344,23 +367,69 @@ public class BaseActivity extends AppCompatActivity {
     public BroadcastReceiver preparedBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            String trackName = intent.getStringExtra(Constants.TRACK_NAME_FOR_MUSIC_SERVICE_INTENT);
+            String artist = intent.getStringExtra(Constants.TRACK_ARTIST_FOR_MUSIC_SERVICE_INTENT);
+            String imageURL = intent.getStringExtra(Constants.TRACK_IMAGE_URL_FOR_MUSIC_SERVICE_INTENT);
+
             activityBaseBinding.smartPlayControls.setVisibility(View.VISIBLE);
-            activityBaseBinding.playButton.setVisibility(View.VISIBLE);
-            activityBaseBinding.bufferingProgressBar.setVisibility(View.GONE);
+            smartPlayControls.setCurrentSong(trackName);
+            smartPlayControls.setCurrentSongImageURL(imageURL);
+            smartPlayControls.setLoading(false);
+            smartPlayControls.setPlaying(true);
         }
     };
 
     public BroadcastReceiver completedBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            smartPlayControls.setLoading(false);
+            smartPlayControls.setPlaying(false);
         }
     };
 
     public BroadcastReceiver errorBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            smartPlayControls.setCurrentSong("Error");
+            smartPlayControls.setLoading(false);
+            smartPlayControls.setPlaying(false);
+        }
+    };
 
+    public BroadcastReceiver showSmartControlsBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean showControls = intent.getBooleanExtra("show_play_controls", true);
+
+            if (showControls) {
+                activityBaseBinding.smartPlayControls.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
+    @Override
+    public void onClick(View view, int position) {
+        int viewID = view.getId();
+        if (viewID == R.id.play_button) {
+            if (musicService.isPlaying()) {
+                musicService.pause();
+                smartPlayControls.setPlaying(false);
+            } else {
+                musicService.play();
+                smartPlayControls.setPlaying(true);
+            }
+        }
+    }
+
+    public final ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            musicService = ((MusicService.MusicServiceBinder) service).getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicService = null;
         }
     };
 }
