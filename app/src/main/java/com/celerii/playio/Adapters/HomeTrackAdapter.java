@@ -23,6 +23,7 @@ import com.celerii.playio.interfaces.OnClickHandlerInterface;
 import com.celerii.playio.mods.SmartPlayControls;
 import com.celerii.playio.mods.Track;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class HomeTrackAdapter extends RecyclerView.Adapter<HomeTrackAdapter.MyViewHolder>
@@ -37,7 +38,7 @@ public class HomeTrackAdapter extends RecyclerView.Adapter<HomeTrackAdapter.MyVi
             Intent musicIntent = new Intent(context, MusicService.class);
             ArrayList<Track> trackList = new ArrayList<>();
             trackList.add(tracks.get(position));
-            musicIntent.putExtra(Constants.TRACK_LIST_FOR_MUSIC_SERVICE_INTENT, trackList);
+            musicIntent.putExtra(Constants.TRACK_LIST_FOR_MUSIC_SERVICE_INTENT, (Serializable) trackList);
             context.startService(musicIntent);
             context.bindService(musicIntent, serviceConnection, Context.BIND_AUTO_CREATE);
 

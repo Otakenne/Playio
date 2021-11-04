@@ -1,5 +1,7 @@
 package com.celerii.playio.mods;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -12,15 +14,47 @@ import com.bumptech.glide.Glide;
 import com.celerii.playio.BR;
 import com.celerii.playio.R;
 
-public class SmartPlayControls extends BaseObservable {
-    String currentSong, currentSongImageURL;
-    boolean isPlaying, isLoading;
+public class SmartPlayControls extends BaseObservable implements Parcelable {
+    String currentSong, currentSongImageURL, currentSongArtist;
+    boolean isPlaying, isLoading, loadFailed, isShuffle, isRepeating;
 
     public SmartPlayControls() {
         this.currentSong = "";
         this.currentSongImageURL = "";
         this.isPlaying = false;
         this.isLoading = false;
+    }
+
+    protected SmartPlayControls(Parcel in) {
+        currentSong = in.readString();
+        currentSongImageURL = in.readString();
+        isPlaying = in.readByte() != 0;
+        isLoading = in.readByte() != 0;
+    }
+
+    public static final Creator<SmartPlayControls> CREATOR = new Creator<SmartPlayControls>() {
+        @Override
+        public SmartPlayControls createFromParcel(Parcel in) {
+            return new SmartPlayControls(in);
+        }
+
+        @Override
+        public SmartPlayControls[] newArray(int size) {
+            return new SmartPlayControls[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(currentSong);
+        dest.writeString(currentSongImageURL);
+        dest.writeByte((byte) (isPlaying ? 1 : 0));
+        dest.writeByte((byte) (isLoading ? 1 : 0));
     }
 
     @Bindable

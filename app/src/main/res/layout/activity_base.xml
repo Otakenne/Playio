@@ -73,7 +73,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="1"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:onClick="@{(v)->clickHandler.onClick(v, 0)}">
 
                 <LinearLayout
                     android:id="@+id/profile_picture_clipper"

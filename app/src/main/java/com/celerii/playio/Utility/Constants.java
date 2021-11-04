@@ -5,7 +5,7 @@ import com.celerii.playio.BuildConfig;
 public class Constants {
     public static final String BASE_URL = "https://api.jamendo.com/v3.0/";
     public static final String CLIENT_ID = "9d795cbb";
-    public static final String CLIENT_SECRET = "16b36137d35391bca050e8a1fcc6aa28";
+//    public static final String CLIENT_SECRET = "16b36137d35391bca050e8a1fcc6aa28";
     public static final String FORMAT = "jsonpretty";
     public static final String IMAGE_SIZE = "600";
     public static final String HAS_IMAGE = "true";
@@ -37,10 +37,7 @@ public class Constants {
     public static final String MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER = BuildConfig.APPLICATION_ID + ".MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER";
 
     public static final String TRACK_LIST_FOR_MUSIC_SERVICE_INTENT = "track_list";
-    public static final String TRACK_URL_FOR_MUSIC_SERVICE_INTENT = "track_url";
-    public static final String TRACK_NAME_FOR_MUSIC_SERVICE_INTENT = "track_name";
-    public static final String TRACK_ARTIST_FOR_MUSIC_SERVICE_INTENT = "track_artist";
-    public static final String TRACK_IMAGE_URL_FOR_MUSIC_SERVICE_INTENT = "track_image_url";
+    public static final String TRACK_FOR_MUSIC_SERVICE_INTENT = "track";
 
     public static final String SHOW_SMART_CONTROLS = "show_smart_controls";
 }

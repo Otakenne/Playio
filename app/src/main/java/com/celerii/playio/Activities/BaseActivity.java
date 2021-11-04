@@ -38,7 +38,10 @@ import com.celerii.playio.databinding.ActivityBaseBinding;
 import com.celerii.playio.interfaces.OnClickHandlerInterface;
 import com.celerii.playio.mods.BottomNavigation;
 import com.celerii.playio.mods.SmartPlayControls;
+import com.celerii.playio.mods.Track;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,6 +49,7 @@ public class BaseActivity extends AppCompatActivity implements OnClickHandlerInt
 
     private static final String SELECTED_BOTTOM_NAV_KEY = "selected_bottom_nav_key";
     private static final String ACTION_BAR_HOME_BUTTON_ENABLED_KEY = "action_bar_home_button_enabled_key";
+    private static final String SMART_CONTROL_STATE_KEY = "smart_control_state_key";
     private static final String ACTIVE_FRAG = "active_frag";
 
     private ActivityBaseBinding activityBaseBinding;
@@ -53,7 +57,6 @@ public class BaseActivity extends AppCompatActivity implements OnClickHandlerInt
     public static SmartPlayControls smartPlayControls;
 
     private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
     private Fragment activeFrag;
 
     private HomeFragment homeFragment;
@@ -65,6 +68,7 @@ public class BaseActivity extends AppCompatActivity implements OnClickHandlerInt
 
     private MusicService musicService;
     private Intent musicIntent;
+    private Track currentTrack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,12 @@ public class BaseActivity extends AppCompatActivity implements OnClickHandlerInt
             } else {
                 setActionBarHomeButton(false);
             }
+
+            if (savedInstanceState.containsKey(SMART_CONTROL_STATE_KEY)) {
+                smartPlayControls = savedInstanceState.getParcelable(SMART_CONTROL_STATE_KEY);
+                activityBaseBinding.setPlayControl(smartPlayControls);
+                activityBaseBinding.smartPlayControls.setVisibility(View.VISIBLE);
+            }
         } else {
             bottomNavigation.setBottomNavigationItems(BottomNavigationItems.HOME);
             setActionBarHomeButton(false);
@@ -91,7 +101,7 @@ public class BaseActivity extends AppCompatActivity implements OnClickHandlerInt
 
         fragmentManager = getSupportFragmentManager();
 
-        fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (savedInstanceState == null) {
             homeFragment = HomeFragment.newInstance();
@@ -140,26 +150,6 @@ public class BaseActivity extends AppCompatActivity implements OnClickHandlerInt
             albumsFragment = (AlbumsFragment) fragmentManager.findFragmentByTag(Constants.ALBUMS_FRAGMENT_TAG);
             artistDetailFragment = (ArtistDetailFragment) fragmentManager.findFragmentByTag(Constants.ARTISTS_DETAIL_FRAGMENT_TAG);
             albumDetailFragment = (AlbumDetailFragment) fragmentManager.findFragmentByTag(Constants.ALBUMS_DETAIL_FRAGMENT_TAG);
-
-//            if (bottomNavigation.getBottomNavigationItems() == BottomNavigationItems.HOME) {
-//                showHomeFragment();
-//            } else if (bottomNavigation.getBottomNavigationItems() == BottomNavigationItems.TRACK) {
-//                showTracksFragment();
-//            } else if (bottomNavigation.getBottomNavigationItems() == BottomNavigationItems.ARTIST) {
-//                showArtistsFragment();
-//            } else if (bottomNavigation.getBottomNavigationItems() == BottomNavigationItems.ALBUM) {
-//                showAlbumsFragment();
-//            }
-//
-//            if (activeFrag instanceof HomeFragment) {
-//
-//            } else if (activeFrag instanceof TracksFragment) {
-//
-//            } else if (activeFrag instanceof ArtistsFragment) {
-//
-//            } else if (activeFrag instanceof AlbumsFragment) {
-//
-//            }
         }
 
         activityBaseBinding.home.setOnClickListener(v -> showHomeFragment());
@@ -291,6 +281,7 @@ public class BaseActivity extends AppCompatActivity implements OnClickHandlerInt
         boolean homeButtonEnabled = (Objects.requireNonNull(getSupportActionBar()).getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP) != 0;
 
         outState.putSerializable(SELECTED_BOTTOM_NAV_KEY, bottomNavigation.getBottomNavigationItems());
+        outState.putParcelable(SMART_CONTROL_STATE_KEY, smartPlayControls);
         outState.putBoolean(ACTION_BAR_HOME_BUTTON_ENABLED_KEY, homeButtonEnabled);
 
         if (getVisibleFragment() != null) {
@@ -367,13 +358,13 @@ public class BaseActivity extends AppCompatActivity implements OnClickHandlerInt
     public BroadcastReceiver preparedBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String trackName = intent.getStringExtra(Constants.TRACK_NAME_FOR_MUSIC_SERVICE_INTENT);
-            String artist = intent.getStringExtra(Constants.TRACK_ARTIST_FOR_MUSIC_SERVICE_INTENT);
-            String imageURL = intent.getStringExtra(Constants.TRACK_IMAGE_URL_FOR_MUSIC_SERVICE_INTENT);
+            currentTrack = (Track) intent.getSerializableExtra(Constants.TRACK_FOR_MUSIC_SERVICE_INTENT);
+//            String artist = intent.getStringExtra(Constants.TRACK_ARTIST_FOR_MUSIC_SERVICE_INTENT);
+//            String imageURL = intent.getStringExtra(Constants.TRACK_IMAGE_URL_FOR_MUSIC_SERVICE_INTENT);
 
             activityBaseBinding.smartPlayControls.setVisibility(View.VISIBLE);
-            smartPlayControls.setCurrentSong(trackName);
-            smartPlayControls.setCurrentSongImageURL(imageURL);
+            smartPlayControls.setCurrentSong(currentTrack.getName());
+            smartPlayControls.setCurrentSongImageURL(currentTrack.getImage());
             smartPlayControls.setLoading(false);
             smartPlayControls.setPlaying(true);
         }
@@ -418,6 +409,12 @@ public class BaseActivity extends AppCompatActivity implements OnClickHandlerInt
                 musicService.play();
                 smartPlayControls.setPlaying(true);
             }
+        } else if (viewID == R.id.smart_play_controls) {
+            Intent intent = new Intent(this, PlayActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("current_track", currentTrack);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 

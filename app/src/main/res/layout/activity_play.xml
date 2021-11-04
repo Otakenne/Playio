@@ -53,14 +53,16 @@
                     android:layout_width="300dp"
                     android:layout_height="300dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="@string/track_art"/>
+                    android:background="@drawable/profile_picture_background"
+                    android:contentDescription="@string/track_art"
+                    app:clipToOutline="@{true}"/>
 
                 <ImageView
                     android:id="@+id/audio_file_thumbnail"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/placeholdericon"
+                    android:src="@drawable/ic_music_note_accent"
                     android:contentDescription="@string/track_art"/>
 
                 <ProgressBar
@@ -78,9 +80,7 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
                     android:gravity="center"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
+                    style="@style/HeaderTextView"
                     android:text="@string/player_error_message"/>
 
             </RelativeLayout>
@@ -120,8 +120,8 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginStart="@dimen/standard_top_margin"
+                android:layout_marginEnd="@dimen/standard_top_margin"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="30dp"
                 android:progress="0"/>
@@ -180,7 +180,7 @@
                         android:id="@+id/shuffle"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/placeholdericon"
+                        android:background="@drawable/ic_shuffle_accent"
                         android:contentDescription="@string/shuffle"/>
 
                 </LinearLayout>
@@ -195,7 +195,7 @@
                         android:id="@+id/previous"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/placeholdericon"
+                        android:background="@drawable/ic_previous_accent"
                         android:contentDescription="@string/previous"/>
 
                 </LinearLayout>
@@ -210,7 +210,7 @@
                         android:id="@+id/play_pause"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:background="@drawable/placeholdericon"
+                        android:background="@drawable/ic_play_accent"
                         android:contentDescription="@string/play_pause"/>
                 </LinearLayout>
 
@@ -224,7 +224,7 @@
                         android:id="@+id/next"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/placeholdericon"
+                        android:background="@drawable/ic_next_accent"
                         android:contentDescription="@string/next"/>
 
                 </LinearLayout>
@@ -239,7 +239,7 @@
                         android:id="@+id/repeat"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/placeholdericon"
+                        android:background="@drawable/ic_repeat_accent"
                         android:contentDescription="@string/repeat"/>
 
                 </LinearLayout>

@@ -27,7 +27,7 @@ public class MusicService extends Service {
     private ArrayList<Track> tracks;
 
     private int currentlyPlaying = 0;
-    private boolean setRepeat = false;
+    private boolean setRepeat = true;
 
     MediaPlayer musicPlayer;
 
@@ -57,21 +57,18 @@ public class MusicService extends Service {
             mp.start();
             Intent preparedIntent = new Intent(Constants.MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER);
             preparedIntent.putExtra("isReady", true);
-            preparedIntent.putExtra(Constants.TRACK_URL_FOR_MUSIC_SERVICE_INTENT, streamURL);
-            preparedIntent.putExtra(Constants.TRACK_NAME_FOR_MUSIC_SERVICE_INTENT, name);
-            preparedIntent.putExtra(Constants.TRACK_ARTIST_FOR_MUSIC_SERVICE_INTENT, artist);
-            preparedIntent.putExtra(Constants.TRACK_IMAGE_URL_FOR_MUSIC_SERVICE_INTENT, imageURL);
+            preparedIntent.putExtra(Constants.TRACK_FOR_MUSIC_SERVICE_INTENT, tracks.get(currentlyPlaying));
             LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(preparedIntent);
         });
 
         musicPlayer.setOnCompletionListener(mp -> {
-            if (currentlyPlaying < tracks.size()) {
+            if (currentlyPlaying < tracks.size() - 1) {
                 currentlyPlaying++;
 
-                streamURL = tracks.get(currentlyPlaying).getAudio();
-                name = tracks.get(currentlyPlaying).getName();
-                artist = tracks.get(currentlyPlaying).getArtist_name();
-                imageURL = tracks.get(currentlyPlaying).getImage();
+//                streamURL = tracks.get(currentlyPlaying).getAudio();
+//                name = tracks.get(currentlyPlaying).getName();
+//                artist = tracks.get(currentlyPlaying).getArtist_name();
+//                imageURL = tracks.get(currentlyPlaying).getImage();
 
                 musicPlayer.reset();
                 try {
@@ -86,10 +83,10 @@ public class MusicService extends Service {
                 if (setRepeat) {
                     currentlyPlaying = 0;
 
-                    streamURL = tracks.get(currentlyPlaying).getAudio();
-                    name = tracks.get(currentlyPlaying).getName();
-                    artist = tracks.get(currentlyPlaying).getArtist_name();
-                    imageURL = tracks.get(currentlyPlaying).getImage();
+//                    streamURL = tracks.get(currentlyPlaying).getAudio();
+//                    name = tracks.get(currentlyPlaying).getName();
+//                    artist = tracks.get(currentlyPlaying).getArtist_name();
+//                    imageURL = tracks.get(currentlyPlaying).getImage();
 
                     musicPlayer.reset();
                     try {
