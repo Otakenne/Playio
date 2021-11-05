@@ -59,6 +59,8 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/profile_picture_background"
                     android:contentDescription="@string/track_art"
+                    app:image="@{playControl.currentSongImageURL}"
+                    app:visibility="@{playControl.loadFailed}"
                     app:clipToOutline="@{true}"/>
 
                 <ImageView
@@ -67,13 +69,15 @@
                     android:layout_height="150dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/ic_music_note_accent"
-                    android:contentDescription="@string/track_art"/>
+                    android:contentDescription="@string/track_art"
+                    app:visibility="@{(!playControl.currentSongImageURL.empty || playControl.loadFailed) ? false : true}"/>
 
                 <ProgressBar
                     android:id="@+id/loading_progress_bar"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_centerInParent="true"/>
+                    android:layout_centerInParent="true"
+                    app:visibility="@{playControl.loading}"/>
 
                 <TextView
                     android:id="@+id/error_text"
@@ -84,8 +88,9 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
                     android:gravity="center"
+                    android:text="@string/player_error_message"
                     style="@style/HeaderTextView"
-                    android:text="@string/player_error_message"/>
+                    app:visibility="@{playControl.loadFailed}"/>
 
             </RelativeLayout>
 
@@ -102,7 +107,7 @@
                 android:textSize="19sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:text=""/>
+                android:text="@{playControl.currentSong}"/>
 
             <TextView
                 android:id="@+id/author"
@@ -117,7 +122,7 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:text=""/>
+                android:text="@{playControl.currentSongArtist}"/>
 
             <SeekBar
                 android:id="@+id/play_back_seekbar"
@@ -128,7 +133,8 @@
                 android:layout_marginEnd="@dimen/standard_top_margin"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="30dp"
-                android:progress="0"/>
+                android:max="@{playControl.durationInt}"
+                android:progress="@{playControl.currentPositionInt}"/>
 
             <LinearLayout
                 android:id="@+id/timers"
@@ -225,7 +231,8 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:background="@drawable/ic_play_accent"
-                        android:contentDescription="@string/play_pause"/>
+                        android:contentDescription="@string/play_pause"
+                        app:icon="@{playControl.playing}"/>
                 </LinearLayout>
 
                 <LinearLayout

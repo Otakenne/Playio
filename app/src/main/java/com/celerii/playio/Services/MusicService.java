@@ -71,9 +71,10 @@ public class MusicService extends Service {
 //                artist = tracks.get(currentlyPlaying).getArtist_name();
 //                imageURL = tracks.get(currentlyPlaying).getImage();
 
+                Track currentTrack = tracks.get(currentlyPlaying);
                 musicPlayer.reset();
                 try {
-                    musicPlayer.setDataSource(streamURL);
+                    musicPlayer.setDataSource(currentTrack.getAudio());
                 } catch (IOException e) {
                     Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
                     completeIntent.putExtra("isComplete", true);
@@ -89,9 +90,10 @@ public class MusicService extends Service {
 //                    artist = tracks.get(currentlyPlaying).getArtist_name();
 //                    imageURL = tracks.get(currentlyPlaying).getImage();
 
+                    Track currentTrack = tracks.get(currentlyPlaying);
                     musicPlayer.reset();
                     try {
-                        musicPlayer.setDataSource(streamURL);
+                        musicPlayer.setDataSource(currentTrack.getAudio());
                     } catch (IOException e) {
                         Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
                         completeIntent.putExtra("isComplete", true);
@@ -129,7 +131,7 @@ public class MusicService extends Service {
                 imageURL = tracks.get(currentlyPlaying).getImage();
 
                 musicPlayer.reset();
-                musicPlayer.setDataSource(streamURL);
+                musicPlayer.setDataSource(tracks.get(currentlyPlaying).getAudio());
                 musicPlayer.prepareAsync();
             } catch (Exception e) {
 //                errorText.setVisibility(View.VISIBLE);
@@ -138,23 +140,6 @@ public class MusicService extends Service {
 
         return Service.START_STICKY;
     }
-
-//    public void onStart(Intent intent, int startId) {
-//
-//    }
-//
-//    public IBinder onUnBind(Intent arg0) {
-//
-//        return null;
-//    }
-//
-//    public void onStop() {
-//
-//    }
-//
-//    public void onPause() {
-//
-//    }
 
     @Override
     public void onDestroy() {
@@ -171,12 +156,24 @@ public class MusicService extends Service {
         musicPlayer.seekTo(progress * 1000);
     }
 
-    public void repeat() {
+    public boolean musicPlayerIsNotNull() {
+        return musicPlayer != null;
+    }
+
+    public void setRepeat() {
         setRepeat = !setRepeat;
     }
 
-    public void shuffle() {
+    public void setShuffle() {
         setShuffle = !setShuffle;
+    }
+
+    public boolean getRepeat() {
+        return setRepeat;
+    }
+
+    public boolean getShuffle() {
+        return setShuffle;
     }
 
     public void pause() {
@@ -191,15 +188,76 @@ public class MusicService extends Service {
     }
 
     public void previousSong() {
+        if (currentlyPlaying != 0) {
+            currentlyPlaying--;
+        }
 
+        Track currentTrack = tracks.get(currentlyPlaying);
+        musicPlayer.reset();
+        try {
+            musicPlayer.setDataSource(currentTrack.getAudio());
+        } catch (IOException e) {
+            Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
+            completeIntent.putExtra("isComplete", true);
+            LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(completeIntent);
+        }
+        musicPlayer.prepareAsync();
     }
 
     public void nextSong() {
+        if (currentlyPlaying == tracks.size() - 1) {
+            currentlyPlaying = 0;
+            if (setRepeat) {
+                Track currentTrack = tracks.get(currentlyPlaying);
+                musicPlayer.reset();
+                try {
+                    musicPlayer.setDataSource(currentTrack.getAudio());
+                } catch (IOException e) {
+                    Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
+                    completeIntent.putExtra("isComplete", true);
+                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(completeIntent);
+                }
+                musicPlayer.prepareAsync();
+            } else {
+                Track currentTrack = tracks.get(currentlyPlaying);
+                musicPlayer.reset();
 
+                try {
+                    musicPlayer.setDataSource(currentTrack.getAudio());
+                } catch (IOException e) {
+                    Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
+                    completeIntent.putExtra("isComplete", true);
+                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(completeIntent);
+                }
+                musicPlayer.prepareAsync();
+                musicPlayer.pause();
+
+                Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
+                completeIntent.putExtra("isComplete", true);
+                LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(completeIntent);
+            }
+        } else {
+            currentlyPlaying++;
+
+            Track currentTrack = tracks.get(currentlyPlaying);
+            musicPlayer.reset();
+            try {
+                musicPlayer.setDataSource(currentTrack.getAudio());
+            } catch (IOException e) {
+                Intent completeIntent = new Intent(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER);
+                completeIntent.putExtra("isComplete", true);
+                LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(completeIntent);
+            }
+            musicPlayer.prepareAsync();
+        }
     }
 
-    public int getPausedLocation() {
+    public int getCurrentLocation() {
         return musicPlayer.getCurrentPosition();
+    }
+
+    public int getDuration() {
+        return musicPlayer.getDuration();
     }
 
     public boolean isPlaying() {

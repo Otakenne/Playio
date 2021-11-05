@@ -15,46 +15,38 @@ import com.celerii.playio.BR;
 import com.celerii.playio.R;
 
 public class SmartPlayControls extends BaseObservable implements Parcelable {
-    String currentSong, currentSongImageURL, currentSongArtist;
+    String currentSong, currentSongImageURL, currentSongArtist, currentPosition, duration;
+    int currentPositionInt, durationInt;
     boolean isPlaying, isLoading, loadFailed, isShuffle, isRepeating;
 
     public SmartPlayControls() {
         this.currentSong = "";
         this.currentSongImageURL = "";
+        this.currentSongArtist = "";
+        this.currentPosition = "";
+        this.duration = "";
+        this.currentPositionInt = 0;
+        this.durationInt = 0;
         this.isPlaying = false;
         this.isLoading = false;
+        this.loadFailed = false;
+        this.isShuffle = false;
+        this.isRepeating = false;
     }
 
-    protected SmartPlayControls(Parcel in) {
-        currentSong = in.readString();
-        currentSongImageURL = in.readString();
-        isPlaying = in.readByte() != 0;
-        isLoading = in.readByte() != 0;
-    }
-
-    public static final Creator<SmartPlayControls> CREATOR = new Creator<SmartPlayControls>() {
-        @Override
-        public SmartPlayControls createFromParcel(Parcel in) {
-            return new SmartPlayControls(in);
-        }
-
-        @Override
-        public SmartPlayControls[] newArray(int size) {
-            return new SmartPlayControls[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(currentSong);
-        dest.writeString(currentSongImageURL);
-        dest.writeByte((byte) (isPlaying ? 1 : 0));
-        dest.writeByte((byte) (isLoading ? 1 : 0));
+    public SmartPlayControls(Track track) {
+        this.currentSong = track.getName();
+        this.currentSongImageURL = track.image;
+        this.currentSongArtist = track.artist_name;
+        this.currentPosition = "";
+        this.duration = "";
+        this.currentPositionInt = 0;
+        this.durationInt = (int) track.duration;
+        this.isPlaying = false;
+        this.isLoading = true;
+        this.loadFailed = false;
+        this.isShuffle = false;
+        this.isRepeating = false;
     }
 
     @Bindable
@@ -85,6 +77,42 @@ public class SmartPlayControls extends BaseObservable implements Parcelable {
     public void setCurrentSongArtist(String currentSongArtist) {
         this.currentSongArtist = currentSongArtist;
         notifyPropertyChanged(BR.currentSongArtist);
+    }
+
+    @Bindable
+    public String getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public void setCurrentPosition(String currentPosition) {
+        this.currentPosition = currentPosition;
+        notifyPropertyChanged(BR.currentPosition);
+    }
+
+    @Bindable
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+        notifyPropertyChanged(BR.duration);
+    }
+
+    public int getCurrentPositionInt() {
+        return currentPositionInt;
+    }
+
+    public void setCurrentPositionInt(int currentPositionInt) {
+        this.currentPositionInt = currentPositionInt;
+    }
+
+    public int getDurationInt() {
+        return durationInt;
+    }
+
+    public void setDurationInt(int durationInt) {
+        this.durationInt = durationInt;
     }
 
     @Bindable
