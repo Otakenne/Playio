@@ -7,8 +7,8 @@ import android.widget.ImageView;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BaseObservable;
-import androidx.databinding.BindingAdapter;
 import androidx.databinding.Bindable;
+import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 import com.celerii.playio.BR;
@@ -47,6 +47,54 @@ public class SmartPlayControls extends BaseObservable implements Parcelable {
         this.loadFailed = false;
         this.isShuffle = false;
         this.isRepeating = false;
+    }
+
+    protected SmartPlayControls(Parcel in) {
+        currentSong = in.readString();
+        currentSongImageURL = in.readString();
+        currentSongArtist = in.readString();
+        currentPosition = in.readString();
+        duration = in.readString();
+        currentPositionInt = in.readInt();
+        durationInt = in.readInt();
+        isPlaying = in.readByte() != 0;
+        isLoading = in.readByte() != 0;
+        loadFailed = in.readByte() != 0;
+        isShuffle = in.readByte() != 0;
+        isRepeating = in.readByte() != 0;
+    }
+
+    public static final Creator<SmartPlayControls> CREATOR = new Creator<SmartPlayControls>() {
+        @Override
+        public SmartPlayControls createFromParcel(Parcel in) {
+            return new SmartPlayControls(in);
+        }
+
+        @Override
+        public SmartPlayControls[] newArray(int size) {
+            return new SmartPlayControls[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(currentSong);
+        dest.writeString(currentSongImageURL);
+        dest.writeString(currentSongArtist);
+        dest.writeString(currentPosition);
+        dest.writeString(duration);
+        dest.writeInt(currentPositionInt);
+        dest.writeInt(durationInt);
+        dest.writeByte((byte) (isPlaying ? 1 : 0));
+        dest.writeByte((byte) (isLoading ? 1 : 0));
+        dest.writeByte((byte) (loadFailed ? 1 : 0));
+        dest.writeByte((byte) (isShuffle ? 1 : 0));
+        dest.writeByte((byte) (isRepeating ? 1 : 0));
     }
 
     @Bindable

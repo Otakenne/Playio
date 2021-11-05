@@ -1,9 +1,5 @@
 package com.celerii.playio.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -16,11 +12,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.databinding.DataBindingUtil;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.celerii.playio.R;
 import com.celerii.playio.Services.MusicService;
 import com.celerii.playio.Utility.Constants;
+import com.celerii.playio.Utility.FormatDuration;
 import com.celerii.playio.databinding.ActivityPlayBinding;
 import com.celerii.playio.interfaces.OnClickHandlerInterface;
 import com.celerii.playio.mods.SmartPlayControls;
@@ -42,51 +47,72 @@ public class PlayActivity extends AppCompatActivity implements OnClickHandlerInt
         super.onCreate(savedInstanceState);
         activityPlayBinding = DataBindingUtil.setContentView(this, R.layout.activity_play);
 
-        Bundle bundle = getIntent().getExtras();
-        currentTrack = (Track) bundle.getSerializable("current_track");
-        if (currentTrack != null) {
-            smartPlayControls = new SmartPlayControls(currentTrack);
-            smartPlayControls.setShuffle(musicService.getShuffle());
-            smartPlayControls.setRepeating(musicService.getRepeat());
-        } else {
-            smartPlayControls = new SmartPlayControls();
-        }
-
-        activityPlayBinding.setClickHandler(this);
-        activityPlayBinding.setPlayControl(smartPlayControls);
-
-        setSupportActionBar(activityPlayBinding.toolbar);
-        activityPlayBinding.toolbar.setTitle(null);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        activityPlayBinding.toolbarTitle.setText(getString(R.string.app_name));
-
         // start MusicService
         Intent musicIntent = new Intent(this, MusicService.class);
         startService(musicIntent);
         bindService(musicIntent, serviceConnection, Context.BIND_AUTO_CREATE);
 
-        Handler mHandler = new Handler();
-        PlayActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(musicService.musicPlayerIsNotNull()) {
-                    try {
-                        int mCurrentPosition = musicService.getCurrentLocation() / 1000;
-                        smartPlayControls.setCurrentPositionInt(mCurrentPosition);
-                        @SuppressLint("DefaultLocale") String currentString = String.format("%02d:%02d", mCurrentPosition / 60, mCurrentPosition % 60);
-                        smartPlayControls.setCurrentPosition(currentString);
-                    } catch (Exception e) {
-                        Log.d("Media Player", e.toString());
-                    }
-                }
-                mHandler.postDelayed(this, 1000);
-            }
-        });
+        Bundle bundle = getIntent().getExtras();
+        currentTrack = (Track) bundle.getSerializable("current_track");
+
+        activityPlayBinding.setClickHandler(this);
+//        activityPlayBinding.setSeekBarChangeListener(this);
+        activityPlayBinding.setPlayControl(smartPlayControls);
+
+        setSupportActionBar(activityPlayBinding.toolbar);
+        activityPlayBinding.toolbar.setTitle(null);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activityPlayBinding.toolbarTitle.setText(getString(R.string.app_name));
+
+//        Handler mHandler = new Handler();
+//        PlayActivity.this.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(musicService.musicPlayerIsNotNull()) {
+//                    try {
+//                        int mCurrentPosition = musicService.getCurrentLocation() / 1000;
+//                        smartPlayControls.setCurrentPositionInt(mCurrentPosition);
+//                        @SuppressLint("DefaultLocale") String currentString = String.format("%02d:%02d", mCurrentPosition / 60, mCurrentPosition % 60);
+//                        smartPlayControls.setCurrentPosition(currentString);
+//                    } catch (Exception e) {
+//                        Log.d("Media Player", e.toString());
+//                    }
+//                }
+//                mHandler.postDelayed(this, 1000);
+//            }
+//        });
 
         LocalBroadcastManager.getInstance(this).registerReceiver(setInfoBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_SET_INFO_LISTENER_BROADCAST_INTENT_FILTER));
         LocalBroadcastManager.getInstance(this).registerReceiver(preparedBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER));
         LocalBroadcastManager.getInstance(this).registerReceiver(completedBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_COMPLETION_LISTENER_BROADCAST_INTENT_FILTER));
         LocalBroadcastManager.getInstance(this).registerReceiver(errorBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_ERROR_LISTENER_BROADCAST_INTENT_FILTER));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.theme_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        } else if (id == R.id.dark_mode){
+            int nightMode = AppCompatDelegate.getDefaultNightMode();
+
+            // if "night mode" is active, set to day and vice versa
+            if (nightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -108,16 +134,38 @@ public class PlayActivity extends AppCompatActivity implements OnClickHandlerInt
             }
         } else if (viewID == R.id.shuffle) {
             musicService.setShuffle();
-            smartPlayControls.setShuffle(true);
+            smartPlayControls.setShuffle(!smartPlayControls.isShuffle());
         } else if (viewID == R.id.previous) {
             musicService.previousSong();
         } else if (viewID == R.id.next) {
             musicService.nextSong();
         } else if (viewID == R.id.repeat) {
             musicService.setRepeat();
-            smartPlayControls.setRepeating(true);
+            smartPlayControls.setRepeating(!smartPlayControls.isRepeating());
         }
     }
+
+//    @Override
+//    public void OnSeekBarChangeListener(SeekBar seekbar) {
+//        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                if(musicService.musicPlayerIsNotNull() && fromUser){
+//                    musicService.seek(progress);
+//                }
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//        });
+//    }
 
     public BroadcastReceiver setInfoBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -143,8 +191,8 @@ public class PlayActivity extends AppCompatActivity implements OnClickHandlerInt
             smartPlayControls = new SmartPlayControls(currentTrack);
             activityPlayBinding.setPlayControl(smartPlayControls);
 
-            int duration = musicService.getDuration();
-            @SuppressLint("DefaultLocale") String durationString = String.format("%02d:%02d", duration / 60, duration % 60);
+            int duration = musicService.getDuration() / 1000;
+            String durationString = FormatDuration.formatDuration(duration);
             smartPlayControls.setPlaying(true);
             smartPlayControls.setDurationInt(duration);
             smartPlayControls.setDuration(durationString);
@@ -173,6 +221,23 @@ public class PlayActivity extends AppCompatActivity implements OnClickHandlerInt
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             musicService = ((MusicService.MusicServiceBinder) service).getService();
+
+            if (currentTrack != null) {
+                smartPlayControls = new SmartPlayControls(currentTrack);
+                smartPlayControls.setShuffle(musicService.getShuffle());
+                smartPlayControls.setRepeating(musicService.getRepeat());
+                int duration = musicService.getDuration() / 1000;
+                String durationString = FormatDuration.formatDuration(duration);
+                smartPlayControls.setPlaying(true);
+                smartPlayControls.setDurationInt(duration);
+                smartPlayControls.setDuration(durationString);
+                smartPlayControls.setLoading(false);
+                smartPlayControls.setLoadFailed(false);
+            } else {
+                smartPlayControls = new SmartPlayControls();
+            }
+
+            activityPlayBinding.setPlayControl(smartPlayControls);
         }
 
         @Override
