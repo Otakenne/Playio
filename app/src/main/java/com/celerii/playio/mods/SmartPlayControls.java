@@ -147,20 +147,24 @@ public class SmartPlayControls extends BaseObservable implements Parcelable {
         notifyPropertyChanged(BR.duration);
     }
 
+    @Bindable
     public int getCurrentPositionInt() {
         return currentPositionInt;
     }
 
     public void setCurrentPositionInt(int currentPositionInt) {
         this.currentPositionInt = currentPositionInt;
+        notifyPropertyChanged(BR.currentPositionInt);
     }
 
+    @Bindable
     public int getDurationInt() {
         return durationInt;
     }
 
     public void setDurationInt(int durationInt) {
         this.durationInt = durationInt;
+        notifyPropertyChanged(BR.durationInt);
     }
 
     @Bindable

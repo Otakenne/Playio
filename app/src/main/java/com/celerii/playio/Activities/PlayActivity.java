@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,7 +57,6 @@ public class PlayActivity extends AppCompatActivity implements OnClickHandlerInt
         currentTrack = (Track) bundle.getSerializable("current_track");
 
         activityPlayBinding.setClickHandler(this);
-//        activityPlayBinding.setSeekBarChangeListener(this);
         activityPlayBinding.setPlayControl(smartPlayControls);
 
         setSupportActionBar(activityPlayBinding.toolbar);
@@ -65,24 +65,6 @@ public class PlayActivity extends AppCompatActivity implements OnClickHandlerInt
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activityPlayBinding.toolbarTitle.setText(getString(R.string.app_name));
-
-//        Handler mHandler = new Handler();
-//        PlayActivity.this.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if(musicService.musicPlayerIsNotNull()) {
-//                    try {
-//                        int mCurrentPosition = musicService.getCurrentLocation() / 1000;
-//                        smartPlayControls.setCurrentPositionInt(mCurrentPosition);
-//                        @SuppressLint("DefaultLocale") String currentString = String.format("%02d:%02d", mCurrentPosition / 60, mCurrentPosition % 60);
-//                        smartPlayControls.setCurrentPosition(currentString);
-//                    } catch (Exception e) {
-//                        Log.d("Media Player", e.toString());
-//                    }
-//                }
-//                mHandler.postDelayed(this, 1000);
-//            }
-//        });
 
         LocalBroadcastManager.getInstance(this).registerReceiver(setInfoBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_SET_INFO_LISTENER_BROADCAST_INTENT_FILTER));
         LocalBroadcastManager.getInstance(this).registerReceiver(preparedBroadcastReceiver, new IntentFilter(Constants.MUSIC_PLAYER_ON_PREPARED_LISTENER_BROADCAST_INTENT_FILTER));
@@ -236,6 +218,43 @@ public class PlayActivity extends AppCompatActivity implements OnClickHandlerInt
             } else {
                 smartPlayControls = new SmartPlayControls();
             }
+
+            Handler mHandler = new Handler();
+            PlayActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(musicService.musicPlayerIsNotNull()) {
+                        try {
+                            int mCurrentPosition = musicService.getCurrentLocation() / 1000;
+                            smartPlayControls.setCurrentPositionInt(mCurrentPosition);
+                            @SuppressLint("DefaultLocale") String currentString = String.format("%02d:%02d", mCurrentPosition / 60, mCurrentPosition % 60);
+                            smartPlayControls.setCurrentPosition(currentString);
+                        } catch (Exception e) {
+                            Log.d("Media Player", e.toString());
+                        }
+                    }
+                    mHandler.postDelayed(this, 1000);
+                }
+            });
+
+            activityPlayBinding.playBackSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (musicService.musicPlayerIsNotNull() && fromUser){
+                        musicService.seek(progress);
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
 
             activityPlayBinding.setPlayControl(smartPlayControls);
         }
