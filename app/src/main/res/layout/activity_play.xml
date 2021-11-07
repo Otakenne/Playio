@@ -154,10 +154,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="2dp"
-                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="@{playControl.currentPosition}"/>
+                    android:text="@{playControl.currentPosition}"
+                    style="@style/ViewMoreTextView"/>
 
                 <TextView
                     android:id="@+id/total_time"
@@ -166,9 +165,8 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="2dp"
                     android:gravity="end"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:text="@{playControl.duration}"/>
+                    android:text="@{playControl.duration}"
+                    style="@style/ViewMoreTextView"/>
 
             </LinearLayout>
 
@@ -186,21 +184,21 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:onClick="@{(v)->clickHandler.onClick(v, 0)}">
+                    android:gravity="center">
 
                     <LinearLayout
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:gravity="center"
-                        app:customBackground="@{playControl.repeating}">
+                        app:customBackground="@{playControl.shuffle}">
 
                         <ImageButton
                             android:id="@+id/shuffle"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:background="@drawable/ic_shuffle_accent"
-                            android:contentDescription="@string/shuffle"/>
+                            android:contentDescription="@string/shuffle"
+                            android:onClick="@{(v)->clickHandler.onClick(v, 0)}"/>
                     </LinearLayout>
 
                 </LinearLayout>
