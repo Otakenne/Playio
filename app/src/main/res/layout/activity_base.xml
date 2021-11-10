@@ -74,7 +74,8 @@
                 android:layout_height="wrap_content"
                 android:weightSum="1"
                 android:orientation="horizontal"
-                android:onClick="@{(v)->clickHandler.onClick(v, 0)}">
+                android:onClick="@{(v)->clickHandler.onClick(v, 0)}"
+                app:visibility="@{!playControl.currentSong.empty}">
 
                 <LinearLayout
                     android:id="@+id/profile_picture_clipper"
