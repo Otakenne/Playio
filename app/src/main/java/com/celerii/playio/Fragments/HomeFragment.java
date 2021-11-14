@@ -1,30 +1,29 @@
 package com.celerii.playio.Fragments;
 
-import android.content.res.Resources;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.celerii.playio.Adapters.HomeAlbumsAdapter;
 import com.celerii.playio.Adapters.HomeArtistAdapter;
 import com.celerii.playio.Adapters.HomeTrackAdapter;
+import com.celerii.playio.R;
+import com.celerii.playio.ViewModels.HomeViewModels;
 import com.celerii.playio.databinding.FragmentHomeBinding;
 import com.celerii.playio.mods.Album;
 import com.celerii.playio.mods.Artist;
 import com.celerii.playio.mods.Track;
-import com.celerii.playio.R;
-import com.celerii.playio.ViewModels.HomeViewModels;;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  *
@@ -51,15 +50,10 @@ public class HomeFragment extends Fragment  {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         View view = fragmentHomeBinding.getRoot();
-
-        homeViewModels = new HomeViewModels();
-        String limit = "20"; //String.valueOf(Resources.getSystem().getInteger(R.integer.trending_tracks_size));
-
-        initializeUI();
 
         tracks = new ArrayList<>();
         homeTrackAdapter = new HomeTrackAdapter(tracks);
@@ -76,6 +70,17 @@ public class HomeFragment extends Fragment  {
         fragmentHomeBinding.albumsList.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         fragmentHomeBinding.albumsList.setAdapter(homeAlbumsAdapter);
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initializeUI();
+
+        homeViewModels = new ViewModelProvider(this).get(HomeViewModels.class);
+        String limit = "20";
         homeViewModels.getTracks(limit).observe(getViewLifecycleOwner(), tracks -> {
             if (tracks != null && !tracks.isEmpty()) {
                 this.tracks.clear();
@@ -98,18 +103,23 @@ public class HomeFragment extends Fragment  {
                 this.albums.addAll(albums);
                 this.homeAlbumsAdapter.notifyDataSetChanged();
 
-                fragmentHomeBinding.progressBar.setVisibility(View.GONE);
-                fragmentHomeBinding.errorLayout.setVisibility(View.GONE);
-                fragmentHomeBinding.scrollView.setVisibility(View.VISIBLE);
+                fragmentHomeBinding.setIsError(false);
+                fragmentHomeBinding.setIsLoading(false);
             }
         });
-
-        return view;
     }
 
     private void initializeUI() {
-        fragmentHomeBinding.progressBar.setVisibility(View.VISIBLE);
-        fragmentHomeBinding.errorLayout.setVisibility(View.GONE);
-        fragmentHomeBinding.scrollView.setVisibility(View.GONE);
+        fragmentHomeBinding.setIsError(false);
+        fragmentHomeBinding.setIsLoading(true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        fragmentHomeBinding = null;
+        homeTrackAdapter = null;
+        homeArtistAdapter = null;
+        homeAlbumsAdapter = null;
+        super.onDestroyView();
     }
 }

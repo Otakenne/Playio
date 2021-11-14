@@ -4,6 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="isLoading"
+            type="boolean" />
+
+        <variable
+            name="isError"
+            type="boolean" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,6 +25,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
+            android:visibility="@{isError &amp;&amp; !isLoading}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:padding="40dp"
                 android:gravity="center"
-                android:text="@string/no_internet_message"
+                android:text="@string/no_results"
                 style="@style/HeaderTextView"/>
 
         </LinearLayout>
@@ -42,6 +53,7 @@
             android:id="@+id/progress_bar"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:visibility="@{!isError &amp;&amp; isLoading}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,6 +64,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scrollbars="none"
+            android:visibility="@{!isError &amp;&amp; !isLoading}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
