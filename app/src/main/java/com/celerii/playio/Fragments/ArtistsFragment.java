@@ -61,13 +61,15 @@ public class ArtistsFragment extends Fragment {
 
         ArtistViewModel artistViewModel = new ViewModelProvider(this).get(ArtistViewModel.class);
         artistViewModel.getArtists(Constants.TRACK_TOP_SONG_COUNT).observe(getViewLifecycleOwner(), artistList -> {
+            fragmentArtistsBinding.setIsLoading(false);
             if (artistList != null && !artistList.isEmpty()) {
                 artists.clear();
                 artists.addAll(artistList);
                 artistAdapter.notifyDataSetChanged();
 
                 fragmentArtistsBinding.setIsError(false);
-                fragmentArtistsBinding.setIsLoading(false);
+            } else {
+                fragmentArtistsBinding.setIsError(true);
             }
         });
     }

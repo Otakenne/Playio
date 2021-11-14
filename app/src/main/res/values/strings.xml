@@ -11,6 +11,7 @@
     <string name="profile_picture">profile picture</string>
     <string name="top_albums">Top Albums</string>
     <string name="no_internet_message">Your device is not connected to the internet, turn on your data or connect to a secure wifi network to continue streaming more indie music.</string>
+    <string name="no_results">Sorry, we couldn\'t find any results at this time</string>
     <string name="error_image">Error Image</string>
     <string name="track_art">Track Art</string>
     <string name="play_button">Play Button</string>

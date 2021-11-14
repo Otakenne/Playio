@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.celerii.playio.Adapters.AlbumAdapter;
@@ -43,31 +45,37 @@ public class AlbumsFragment extends Fragment {
         fragmentAlbumsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_albums, container, false);
         View view = fragmentAlbumsBinding.getRoot();
 
+        albums = new ArrayList<>();
+        albumAdapter = new AlbumAdapter(albums);
+        fragmentAlbumsBinding.albumsList.setAdapter(albumAdapter);
+        fragmentAlbumsBinding.albumsList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         initializeUI();
-        AlbumViewModel albumViewModel = new AlbumViewModel();
+
+        AlbumViewModel albumViewModel = new ViewModelProvider(this).get(AlbumViewModel.class);
         albumViewModel.getAlbums(Constants.TRACK_TOP_SONG_COUNT).observe(getViewLifecycleOwner(), albumList -> {
+            fragmentAlbumsBinding.setIsLoading(false);
             if (albumList != null && !albumList.isEmpty()) {
                 albums.clear();
                 albums.addAll(albumList);
                 albumAdapter.notifyDataSetChanged();
 
-                fragmentAlbumsBinding.errorLayout.setVisibility(View.GONE);
-                fragmentAlbumsBinding.progressBar.setVisibility(View.GONE);
-                fragmentAlbumsBinding.albumsList.setVisibility(View.VISIBLE);
+                fragmentAlbumsBinding.setIsError(false);
+            } else {
+                fragmentAlbumsBinding.setIsError(true);
             }
         });
-
-        return view;
     }
 
     private void initializeUI() {
-        fragmentAlbumsBinding.errorLayout.setVisibility(View.GONE);
-        fragmentAlbumsBinding.progressBar.setVisibility(View.VISIBLE);
-        fragmentAlbumsBinding.albumsList.setVisibility(View.GONE);
-
-        albums = new ArrayList<>();
-        albumAdapter = new AlbumAdapter(albums);
-        fragmentAlbumsBinding.albumsList.setAdapter(albumAdapter);
-        fragmentAlbumsBinding.albumsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentAlbumsBinding.setIsError(false);
+        fragmentAlbumsBinding.setIsLoading(true);
     }
 }

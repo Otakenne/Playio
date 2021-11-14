@@ -44,7 +44,8 @@
                 android:layout_height="wrap_content"
                 android:padding="40dp"
                 android:gravity="center"
-                android:text="@string/no_internet_message" />
+                android:text="@string/no_results"
+                style="@style/HeaderTextView"/>
 
         </LinearLayout>
 
