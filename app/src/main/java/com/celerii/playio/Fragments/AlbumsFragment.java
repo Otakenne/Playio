@@ -78,4 +78,11 @@ public class AlbumsFragment extends Fragment {
         fragmentAlbumsBinding.setIsError(false);
         fragmentAlbumsBinding.setIsLoading(true);
     }
+
+    @Override
+    public void onDestroyView() {
+        fragmentAlbumsBinding = null;
+        albumAdapter = null;
+        super.onDestroyView();
+    }
 }

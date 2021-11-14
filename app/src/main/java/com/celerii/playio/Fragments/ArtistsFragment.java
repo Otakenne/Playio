@@ -78,4 +78,11 @@ public class ArtistsFragment extends Fragment {
         fragmentArtistsBinding.setIsError(false);
         fragmentArtistsBinding.setIsLoading(true);
     }
+
+    @Override
+    public void onDestroyView() {
+        fragmentArtistsBinding = null;
+        artistAdapter = null;
+        super.onDestroyView();
+    }
 }
