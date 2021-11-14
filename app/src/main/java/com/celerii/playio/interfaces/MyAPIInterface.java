@@ -19,17 +19,17 @@ public interface MyAPIInterface {
 
     @GET("tracks/")
     Call<TrackResponse> getArtistTracks(@Query("client_id") String clientID,
-                                      @Query("format") String format,
-                                      @Query("limit") String limit,
-                                      @Query("imagesize") String imagesize,
-                                      @Query("artist_id") String artistID);
+                                        @Query("format") String format,
+                                        @Query("limit") String limit,
+                                        @Query("imagesize") String imagesize,
+                                        @Query("artist_id") String artistID);
 
     @GET("tracks/")
     Call<TrackResponse> getAlbumTracks(@Query("client_id") String clientID,
-                                     @Query("format") String format,
-                                     @Query("limit") String limit,
-                                     @Query("imagesize") String imagesize,
-                                     @Query("album_id") String albumID);
+                                       @Query("format") String format,
+                                       @Query("limit") String limit,
+                                       @Query("imagesize") String imagesize,
+                                       @Query("album_id") String albumID);
 
     @GET("artists/")
     Call<ArtistResponse> getArtists(@Query("client_id") String clientID,

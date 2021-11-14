@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.celerii.playio.Adapters.ArtistAdapter;
@@ -43,31 +45,35 @@ public class ArtistsFragment extends Fragment {
         fragmentArtistsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_artists, container, false);
         View view = fragmentArtistsBinding.getRoot();
 
+        artists = new ArrayList<>();
+        artistAdapter = new ArtistAdapter(artists);
+        fragmentArtistsBinding.artistList.setAdapter(artistAdapter);
+        fragmentArtistsBinding.artistList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         initializeUI();
-        ArtistViewModel artistViewModel = new ArtistViewModel();
+
+        ArtistViewModel artistViewModel = new ViewModelProvider(this).get(ArtistViewModel.class);
         artistViewModel.getArtists(Constants.TRACK_TOP_SONG_COUNT).observe(getViewLifecycleOwner(), artistList -> {
             if (artistList != null && !artistList.isEmpty()) {
                 artists.clear();
                 artists.addAll(artistList);
                 artistAdapter.notifyDataSetChanged();
 
-                fragmentArtistsBinding.errorLayout.setVisibility(View.GONE);
-                fragmentArtistsBinding.progressBar.setVisibility(View.GONE);
-                fragmentArtistsBinding.artistList.setVisibility(View.VISIBLE);
+                fragmentArtistsBinding.setIsError(false);
+                fragmentArtistsBinding.setIsLoading(false);
             }
         });
-
-        return view;
     }
 
     private void initializeUI() {
-        fragmentArtistsBinding.errorLayout.setVisibility(View.GONE);
-        fragmentArtistsBinding.progressBar.setVisibility(View.VISIBLE);
-        fragmentArtistsBinding.artistList.setVisibility(View.GONE);
-
-        artists = new ArrayList<>();
-        artistAdapter = new ArtistAdapter(artists);
-        fragmentArtistsBinding.artistList.setAdapter(artistAdapter);
-        fragmentArtistsBinding.artistList.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentArtistsBinding.setIsError(false);
+        fragmentArtistsBinding.setIsLoading(true);
     }
 }
