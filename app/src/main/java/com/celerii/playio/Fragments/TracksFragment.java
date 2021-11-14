@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.celerii.playio.Adapters.TracksAdapter;
@@ -45,33 +47,44 @@ public class TracksFragment extends Fragment {
         fragmentTracksBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_tracks, container, false);
         View view = fragmentTracksBinding.getRoot();
 
-
-        initializeUI();
-        TracksViewModel tracksViewModel = new TracksViewModel();
-        tracksViewModel.getTracks(Constants.TRACK_TOP_SONG_COUNT).observe(getViewLifecycleOwner(), trackList -> {
-            if (trackList != null && !trackList.isEmpty()) {
-                tracks.clear();
-                tracks.addAll(trackList);
-                tracksAdapter.notifyDataSetChanged();
-
-                fragmentTracksBinding.errorLayout.setVisibility(View.GONE);
-                fragmentTracksBinding.progressBar.setVisibility(View.GONE);
-                fragmentTracksBinding.trackList.setVisibility(View.VISIBLE);
-            }
-        });
-
-        return view;
-    }
-
-    private void initializeUI() {
-        fragmentTracksBinding.errorLayout.setVisibility(View.GONE);
-        fragmentTracksBinding.progressBar.setVisibility(View.VISIBLE);
-        fragmentTracksBinding.trackList.setVisibility(View.GONE);
-
         tracks = new ArrayList<>();
         tracksDetailsHeader = new TrackDetailsHeader(Constants.TRACK_DETAILS_HEADER_TEXT, Constants.TRACK_DETAILS_HEADER_IMAGE_URL);
         tracksAdapter = new TracksAdapter(tracks, tracksDetailsHeader);
         fragmentTracksBinding.trackList.setAdapter(tracksAdapter);
         fragmentTracksBinding.trackList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initializeUI();
+        TracksViewModel tracksViewModel = new ViewModelProvider(this).get(TracksViewModel.class);
+        tracksViewModel.getTracks(Constants.TRACK_TOP_SONG_COUNT).observe(getViewLifecycleOwner(), trackList -> {
+            fragmentTracksBinding.setIsLoading(false);
+            if (trackList != null && !trackList.isEmpty()) {
+                tracks.clear();
+                tracks.addAll(trackList);
+                tracksAdapter.notifyDataSetChanged();
+
+                fragmentTracksBinding.setIsError(false);
+            } else {
+                fragmentTracksBinding.setIsError(true);
+            }
+        });
+    }
+
+    private void initializeUI() {
+        fragmentTracksBinding.setIsError(false);
+        fragmentTracksBinding.setIsLoading(true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        fragmentTracksBinding = null;
+        tracksAdapter = null;
+        super.onDestroyView();
     }
 }
