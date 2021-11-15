@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -121,5 +122,14 @@ public class HomeFragment extends Fragment  {
         homeArtistAdapter = null;
         homeAlbumsAdapter = null;
         super.onDestroyView();
+    }
+
+    @BindingAdapter("visibility")
+    public static void setVisibility(View view, boolean isVisible) {
+        if (isVisible) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.INVISIBLE);
+        }
     }
 }

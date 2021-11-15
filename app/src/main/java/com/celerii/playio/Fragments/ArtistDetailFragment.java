@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -91,5 +92,14 @@ public class ArtistDetailFragment extends Fragment {
         fragmentArtistDetailBinding = null;
         artistDetailAdapter = null;
         super.onDestroy();
+    }
+
+    @BindingAdapter("visibility")
+    public static void setVisibility(View view, boolean isVisible) {
+        if (isVisible) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.INVISIBLE);
+        }
     }
 }
