@@ -1,0 +1,30 @@
+{
+  "headers":{
+    "status":"success",
+    "code":0,
+    "error_message":"",
+    "warnings":"",
+    "results_count":2
+  },
+  "results":[
+    {
+      "id":"1532771",
+      "name":"Let Me Hear You I",
+      "duration":54,
+      "artist_id":"461414",
+      "artist_name":"Paul Werner",
+      "artist_idstr":"PaulWernerMusic",
+      "album_name":"Let Me Hear You I",
+      "album_id":"404140",
+      "license_ccurl":"http:\/\/creativecommons.org\/licenses\/by-nc-nd\/3.0\/",
+      "position":1,
+      "releasedate":"2018-03-15",
+      "album_image":"https:\/\/usercontent.jamendo.com?type=album&id=404140&width=200&trackid=1532771",
+      "audio":"https:\/\/mp3l.jamendo.com\/?trackid=1532771&format=mp31&from=app-devsite",
+      "audiodownload":"https:\/\/mp3d.jamendo.com\/download\/track\/1532771\/mp32\/",
+      "prourl":"https:\/\/licensing.jamendo.com\/track\/1532771",
+      "shorturl":"https:\/\/jamen.do\/t\/1532771",
+      "shareurl":"https:\/\/www.jamendo.com\/track\/1532771"
+    }
+  ]
+}
