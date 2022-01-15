@@ -14,6 +14,9 @@ It's written in Java and follows a clean easily maintainable architecture. It fo
 - Notification drawer controls
 - Shuffle
 
+## Play Store URL
+https://play.google.com/store/apps/details?id=com.celerii.playio
+
 ## Screenshots
 <img src="https://github.com/Otakenne/Playio/blob/master/Screenshot_20211111-010144_Play%20IO.jpg" width="250">            <img src="https://github.com/Otakenne/Playio/blob/master/Screenshot_20211111-010203_Play%20IO.jpg" width="250">            <img src="https://github.com/Otakenne/Playio/blob/master/Screenshot_20211111-010136_Play%20IO.jpg" width="250">
 
